@@ -1,0 +1,64 @@
+import Link from "next/link";
+import Image from "next/image";
+
+export function Footer() {
+    return (
+        <footer className="bg-[var(--color-primary)] text-white mt-auto">
+            <div className="container mx-auto px-4 md:px-6 py-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    {/* Brand */}
+                    <div className="col-span-1 md:col-span-1">
+                        <Link href="/" className="inline-block mb-4">
+                            <Image
+                                src="/logo-white.png"
+                                alt="BTRB Logo"
+                                width={150}
+                                height={50}
+                                className="h-10 w-auto"
+                            />
+                        </Link>
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                            Propelling the field of Behaviour Therapy in Sri Lanka.
+                            The official regulatory body establishing standards and ethics.
+                        </p>
+                    </div>
+
+                    {/* Quick Links */}
+                    <div>
+                        <h4 className="font-semibold mb-4 text-[var(--color-accent)]">Quick Links</h4>
+                        <ul className="space-y-2 text-sm text-gray-300">
+                            <li><Link href="/about" className="hover:text-white">About Us</Link></li>
+                            <li><Link href="/certification" className="hover:text-white">Certification</Link></li>
+                            <li><Link href="/training" className="hover:text-white">Training</Link></li>
+                            <li><Link href="/donate" className="hover:text-white">Donate</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Resources & Legal */}
+                    <div>
+                        <h4 className="font-semibold mb-4 text-[var(--color-accent)]">Information</h4>
+                        <ul className="space-y-2 text-sm text-gray-300">
+                            <li><Link href="/therapy" className="hover:text-white">About Therapy</Link></li>
+                            <li><Link href="/directory" className="hover:text-white">Therapist Directory</Link></li>
+                            <li><Link href="/resources" className="hover:text-white">Resources</Link></li>
+                            <li><Link href="/contact" className="hover:text-white">Contact Us</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Legal / Contact Info (Static for now) */}
+                    <div>
+                        <h4 className="font-semibold mb-4 text-[var(--color-accent)]">Legal</h4>
+                        <ul className="space-y-2 text-sm text-gray-300">
+                            <li><Link href="/legal/ethical-standards" className="hover:text-white">Ethical Standards</Link></li>
+                            <li><Link href="/legal/terms" className="hover:text-white">Terms & Conditions</Link></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="border-t border-gray-700 mt-12 pt-8 text-center text-xs text-gray-400">
+                    <p>© {new Date().getFullYear()} Behaviour Therapy Regulatory Board of Sri Lanka. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    );
+}

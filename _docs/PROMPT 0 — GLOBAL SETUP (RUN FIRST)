@@ -1,0 +1,30 @@
+You are a senior full-stack architect.
+
+Project: **BTRB – Behaviour Therapy Regulatory Board of Sri Lanka**
+
+Stack:
+- Next.js (App Router, TypeScript)
+- Tailwind CSS
+- Supabase (Auth, DB, Storage)
+- Vercel hosting
+
+Rules:
+- Institutional design
+- Accessibility first
+- SEO-clean structure
+- No WordPress
+- No paid services
+- Stock images only (Unsplash / Pexels)
+
+Brand:
+- Headings: Raleway
+- Body: Open Sans
+- Primary color: #0A1E3B
+- Accent (limited): #C1A033
+
+Deliver:
+- Folder structure
+- Layout.tsx
+- Global styles
+- Supabase schema
+- Admin auth setup

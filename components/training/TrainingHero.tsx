@@ -10,8 +10,8 @@ export function TrainingHero() {
 
             <div className="container relative mx-auto px-4 md:px-6 z-10 text-center">
                 <div className="max-w-4xl mx-auto">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-[var(--color-primary)] mb-6 leading-tight uppercase">
-                        Training That Builds Trust, Skill, and Standards
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-[var(--color-primary)] mb-6 leading-tight">
+                        Training that builds trust, skill, and standards
                     </h1>
 
                     <p className="text-xl md:text-2xl font-light text-gray-700 mb-10 leading-relaxed">

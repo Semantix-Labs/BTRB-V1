@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ApplicationForm } from "@/components/certification/ApplicationForm";
+import { MembershipForm } from "@/components/features/membership-form/MembershipForm";
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 
@@ -63,7 +63,7 @@ export default function ApplyPage() {
 
                     {/* Main Form Area */}
                     <div className="lg:w-2/3">
-                        <ApplicationForm />
+                        <MembershipForm />
                     </div>
                 </div>
             </div>

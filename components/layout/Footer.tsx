@@ -18,8 +18,9 @@ export function Footer() {
                             />
                         </Link>
                         <p className="text-sm text-gray-300 leading-relaxed">
-                            Propelling the field of Behaviour Therapy in Sri Lanka.
-                            The official regulatory body establishing standards and ethics.
+                            The Behaviour Analysis Registration Board (BARB)
+                            is Sri Lanka’s official body regulating and certifying
+                            behaviour therapy professionals.
                         </p>
                     </div>
 
@@ -56,7 +57,10 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-gray-700 mt-12 pt-8 text-center text-xs text-gray-400">
-                    <p>© {new Date().getFullYear()} Behaviour Therapy Regulatory Board of Sri Lanka. All rights reserved.</p>
+                    <p className="mb-2">© {new Date().getFullYear()} Behaviour Therapy Regulatory Board of Sri Lanka. All rights reserved.</p>
+                    <p>
+                        Developed by <a href="https://www.semantixlabs.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">Semantix Labs (Pvt) Ltd</a>
+                    </p>
                 </div>
             </div>
         </footer>

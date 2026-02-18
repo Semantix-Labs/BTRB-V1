@@ -1,29 +1,31 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { FileText, Send, Search, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const steps = [
     {
         id: 1,
-        title: "Review Eligibility",
-        description: "Ensure you meet the academic and practical requirements.",
+        title: "Check Eligibility",
+        description: "Determine which designation fits your background.",
         icon: Search,
     },
     {
         id: 2,
         title: "Submit Application",
-        description: "Complete the online form and upload necessary documents.",
+        description: "Prepare and upload supporting documents (certificates, proof of training, ID, etc.)",
         icon: Send,
     },
     {
         id: 3,
-        title: "Verification",
-        description: "The board reviews your credentials and references.",
+        title: "Undergo Review",
+        description: "Our board assesses applications on a case-by-case basis.",
         icon: FileText,
     },
     {
         id: 4,
-        title: "Certification",
-        description: "Upon approval, receive your official BTRB certification.",
+        title: "Get Certified",
+        description: "Once approved, you'll receive your credential and be listed in our public directory.",
         icon: Award,
     },
 ];
@@ -33,11 +35,11 @@ export function ProcessSteps() {
         <section className="py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-20">
-                    <h2 className="text-3xl font-bold font-heading text-[var(--color-primary)] mb-4">Application Process</h2>
+                    <h2 className="text-3xl font-bold font-heading text-[var(--color-primary)] mb-4">How To Get Certified</h2>
                     <p className="text-gray-600">Your journey to becoming a certified practitioner.</p>
                 </div>
 
-                <div className="relative">
+                <div className="relative mb-16">
                     {/* Connector Line (Desktop) */}
                     <div className="hidden md:block absolute top-[2.5rem] left-0 w-full h-1 bg-gray-100 -z-10" />
 
@@ -60,6 +62,12 @@ export function ProcessSteps() {
                             </div>
                         ))}
                     </div>
+                </div>
+
+                <div className="text-center">
+                    <Button asChild size="lg" className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white min-w-[200px] h-12 shadow-md">
+                        <Link href="/certification/apply">Apply Now</Link>
+                    </Button>
                 </div>
             </div>
         </section>

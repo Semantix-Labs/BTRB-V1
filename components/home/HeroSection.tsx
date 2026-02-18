@@ -29,30 +29,23 @@ export function HeroSection() {
 
             <div className="container relative mx-auto px-4 md:px-6 text-center z-10">
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                    {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-blue-100 shadow-sm mb-8 animate-in fade-in zoom-in duration-700 delay-100">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                        </span>
-                        <span className="text-xs font-semibold text-[var(--color-primary)] tracking-wide uppercase">Official Regulatory Body</span>
-                    </div> */}
-
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-[var(--color-primary)] mb-8 leading-tight drop-shadow-sm tracking-tight">
-                        Elevating Standards in <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-blue-600">Behaviour Therapy</span>
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-[var(--color-primary)] mb-6 leading-tight drop-shadow-sm tracking-tight">
+                        The Behaviour Analysis <br className="hidden md:block" />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-blue-600">Registration Board</span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
-                        We safeguard the quality, integrity, and ethical practice of behaviour therapy across Sri Lanka through rigorous certification and oversight.
+                    <p className="text-xl md:text-2xl font-semibold text-[var(--color-secondary)] mb-6 uppercase tracking-wider">
+                        Raising the standard of behaviour therapy in Sri Lanka
+                    </p>
+
+                    <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-10 leading-relaxed">
+                        The Behaviour Analysis Registration Board (BARB) is Sri Lanka’s official regulatory body for behaviour therapy: certifying, guiding, and safeguarding professionals who transform lives through ethical, evidence-based care.
                     </p>
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-5 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-                    <Button asChild size="lg" className="min-w-[220px] h-14 text-lg font-semibold shadow-xl shadow-blue-900/10 hover:shadow-2xl hover:-translate-y-1 transition-all bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90">
-                        <Link href="/certification/apply">Get Certified</Link>
-                    </Button>
-                    <Button asChild size="lg" variant="outline" className="min-w-[220px] h-14 text-lg font-semibold bg-white border-2 border-gray-100 hover:border-[var(--color-primary)]/20 hover:bg-gray-50 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 text-[var(--color-primary)]">
-                        <Link href="/directory">Find a Therapist</Link>
+                    <Button asChild size="lg" className="min-w-[240px] h-14 text-lg font-semibold shadow-xl shadow-blue-900/10 hover:shadow-2xl hover:-translate-y-1 transition-all bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90">
+                        <Link href="/certification/apply">Become a Certified Therapist</Link>
                     </Button>
                 </div>
             </div>

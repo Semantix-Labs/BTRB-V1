@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactInfo } from "@/components/contact/ContactInfo";
+import { ContactHero } from "@/components/contact/ContactHero";
 
 export const metadata: Metadata = {
     title: 'Contact Us',
@@ -10,20 +11,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
     return (
         <div className="flex flex-col min-h-screen">
-            {/* Header */}
-            <section className="bg-[var(--color-primary)] text-white py-20 relative overflow-hidden">
-                {/* Abstract Background Element */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-white/5 skew-x-12 transform origin-top-right pointer-events-none" />
-
-                <div className="container relative mx-auto px-4 md:px-6 text-center z-10">
-                    <h1 className="text-4xl md:text-5xl font-bold font-heading mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                        Get in Touch
-                    </h1>
-                    <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto font-light animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
-                        We are committed to transparency and accessibility. Reach out to us for any inquiries regarding behaviour therapy regulation in Sri Lanka.
-                    </p>
-                </div>
-            </section>
+            <ContactHero />
 
             {/* Main Content */}
             <section className="py-20 bg-gray-50 flex-grow">

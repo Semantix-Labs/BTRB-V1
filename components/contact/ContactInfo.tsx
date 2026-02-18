@@ -1,64 +1,64 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Clock } from "lucide-react";
 
 export function ContactInfo() {
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-3xl font-bold font-heading text-[var(--color-primary)] mb-6">Contact Information</h2>
+                <h2 className="text-3xl font-bold font-heading text-[var(--color-primary)] mb-6">Contact Details</h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
-                    Have questions about certification, ethics, or our mission? We are here to assist you.
+                    We are here to assist you with any questions or concerns.
                 </p>
             </div>
 
-            <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1">
-                        <Mail className="w-5 h-5" />
+            <div className="space-y-8">
+                <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1 border border-[var(--color-primary)]/10">
+                        <Mail className="w-6 h-6" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-gray-900 mb-1">Email Us</h3>
-                        <p className="text-gray-600 text-sm mb-1">For general inquiries:</p>
-                        <a href="mailto:info@btrb.lk" className="text-[var(--color-secondary)] font-medium hover:underline">info@btrb.lk</a>
-
-                        <p className="text-gray-600 text-sm mt-3 mb-1">For certification support:</p>
-                        <a href="mailto:certification@btrb.lk" className="text-[var(--color-secondary)] font-medium hover:underline">certification@btrb.lk</a>
+                        <h3 className="text-lg font-bold text-gray-900 mb-1">General Inquiries</h3>
+                        <a href="mailto:info@barb.lk" className="text-[var(--color-primary)] text-lg font-medium hover:underline hover:text-[var(--color-secondary)] transition-colors">info@barb.lk</a>
                     </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1">
-                        <Phone className="w-5 h-5" />
+                <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1 border border-[var(--color-primary)]/10">
+                        <Phone className="w-6 h-6" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-gray-900 mb-1">Call Us</h3>
-                        <p className="text-gray-600 text-sm">Mon-Fri from 8am to 5pm.</p>
-                        <a href="tel:+94112345678" className="text-[var(--color-secondary)] font-medium hover:underline block mt-1">+94 11 234 5678</a>
+                        <h3 className="text-lg font-bold text-gray-900 mb-1">Call Us</h3>
+                        <div className="space-y-1">
+                            <a href="tel:+94766094212" className="text-gray-600 hover:text-[var(--color-primary)] block transition-colors">+94 76 609 4212</a>
+                            <a href="tel:+94741022110" className="text-gray-600 hover:text-[var(--color-primary)] block transition-colors">+94 74 102 2110</a>
+                        </div>
                     </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1">
-                        <MapPin className="w-5 h-5" />
+                <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1 border border-[var(--color-primary)]/10">
+                        <MapPin className="w-6 h-6" />
                     </div>
                     <div>
-                        <h3 className="font-bold text-gray-900 mb-1">Visit Us</h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                            No. 123, Bauddhaloka Mawatha,<br />
-                            Colombo 07,<br />
-                            Sri Lanka.
+                        <h3 className="text-lg font-bold text-gray-900 mb-1">Office Location</h3>
+                        <p className="text-gray-600 leading-relaxed">
+                            Dehiwala, Sri Lanka
                         </p>
                     </div>
                 </div>
-            </div>
 
-            {/* Map Placeholder */}
-            <div className="w-full aspect-video rounded-2xl overflow-hidden relative shadow-md group">
-                {/* Using a static map image or pattern as placeholder */}
-                <div className="absolute inset-0 bg-gray-200 animate-pulse group-hover:animate-none transition-all" />
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 text-sm font-medium">
-                    [ Interactive Map Embed ]
+                <div className="flex items-start gap-5">
+                    <div className="w-12 h-12 rounded-xl bg-[var(--color-primary)]/5 flex items-center justify-center text-[var(--color-primary)] shrink-0 mt-1 border border-[var(--color-primary)]/10">
+                        <Clock className="w-6 h-6" />
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-1">Office Hours</h3>
+                        <p className="text-gray-600 leading-relaxed">
+                            Monday to Friday <br /> 9:00 AM – 5:00 PM
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     );
 }
+

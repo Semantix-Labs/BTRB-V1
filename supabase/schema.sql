@@ -1,113 +1,96 @@
--- Enable UUID extension
-create extension if not exists "uuid-ossp";
-
--- 1. Profiles / Therapists Table (Publicly viewable if status is 'active')
-create table therapists (
-  id uuid default uuid_generate_v4() primary key,
+-- Create a table for therapist applications
+create table public.therapist_applications (
+  id uuid default gen_random_uuid() primary key,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  full_name text not null,
-  registration_number text, -- Assigned by Admin
-  email text not null,
-  phone text,
-  specialization text,
+  
+  -- Personal Information
+  first_name text not null,
+  surname text not null,
+  date_of_birth date,
   address text,
-  status text default 'pending' check (status in ('pending', 'active', 'inactive', 'rejected')),
-  bio text,
-  profile_image_url text
+  phone text,
+  phone_optional text,
+  email text,
+  nic_or_passport text,
+  
+  -- File Paths (Stored as text paths to Supabase Storage)
+  nic_front_path text,
+  nic_back_path text,
+  
+  -- Criteria Selection
+  current_rbt boolean default false,
+  rbt_certification_no text,
+  
+  current_ibt boolean default false,
+  ibt_certification_no text,
+  
+  expired_rbt boolean default false,
+  expired_rbt_file_path text,
+  
+  voluntary_inactive_rbt boolean default false,
+  voluntary_inactive_rbt_certification_no text,
+  voluntary_inactive_rbt_reactivation_date date,
+  
+  expired_ibt boolean default false,
+  expired_ibt_file_path text,
+  
+  practicing_behavior_therapist boolean default false,
+  other_aba_qualifications boolean default false,
+  behaviour_analyst boolean default false,
+  
+  -- Additional Information (Education & Work)
+  institution text,
+  period_of_education text,
+  qualifications text,
+  education_file_path text,
+  
+  work_place_name text,
+  work_place_address text,
+  employment_period text,
+  designation text,
+  full_time_part_time text,
+  explanation_of_services text,
+  work_experience_file_path text,
+  
+  cv_file_path text,
+  insurance_file_path text,
+  
+  -- Terms and Conditions checkboxes
+  resident boolean default false,
+  agree_objectives boolean default false,
+  agree_maintenance boolean default false,
+  agree_license boolean default false,
+  agree_update boolean default false,
+  agree_malpractice boolean default false,
+  agree_ethics boolean default false,
+  agree_police_clearance boolean default false,
+  
+  -- Status tracking
+  status text default 'pending' check (status in ('pending', 'approved', 'rejected', 'more_info_needed'))
 );
 
--- 2. Inquiries (Contact Form Submissions)
-create table inquiries (
-  id uuid default uuid_generate_v4() primary key,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  name text not null,
-  email text not null,
-  inquiry_type text not null, -- 'general', 'certification', 'training', 'complaint'
-  message text not null,
-  status text default 'new' check (status in ('new', 'read', 'archived'))
-);
+-- Enable Row Level Security
+alter table public.therapist_applications enable row level security;
 
--- 3. Resources (PDFs/Blog Metadata)
-create table resources (
-  id uuid default uuid_generate_v4() primary key,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  title text not null,
-  description text,
-  file_url text not null, -- Supabase Storage URL
-  category text, -- 'guide', 'form', 'policy'
-  published boolean default true
-);
+-- Policy: Allow anyone to insert (public submission)
+create policy "Allow public to insert applications"
+on public.therapist_applications
+for insert
+to anon
+with check (true);
 
--- 4. News & Events
-create table news (
-  id uuid default uuid_generate_v4() primary key,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  title text not null,
-  content text,
-  event_date timestamp with time zone,
-  image_url text,
-  published boolean default true
-);
+-- Policy: Allow only authenticated users (admins) to view applications
+-- Assuming you will have authenticated admins later. For now, we can leave this restricted or allow anon read for development if needed.
+-- Ideally, you'd restrict this to a specific role.
+create policy "Allow authenticated users to select"
+on public.therapist_applications
+for select
+to authenticated
+using (true);
 
--- 5. Board Members
-create table board_members (
-  id uuid default uuid_generate_v4() primary key,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  name text not null,
-  role text not null, -- e.g. 'President', 'Secretary'
-  credentials text, -- e.g. 'PhD, BCBA'
-  image_url text,
-  bio text,
-  order_index integer default 99
-);
-
--- ROW LEVEL SECURITY (RLS) policies
-
--- Enable RLS on all tables
-alter table therapists enable row level security;
-alter table inquiries enable row level security;
-alter table resources enable row level security;
-alter table news enable row level security;
-alter table board_members enable row level security;
-
--- POLICIES
-
--- Therapists: Public can read ACTIVE therapists only.
-create policy "Public can view active therapists"
-  on therapists for select
-  using (status = 'active');
-
--- Therapists: Admin can do everything (assumed admin uses service role or specific email, 
--- but for simplicity in this SQL we usually just allow anon insert for application form? 
--- The Prompt says "Register as Therapist (form)". So Public must be able to INSERT.)
-
-create policy "Public can submit therapist application"
-  on therapists for insert
-  with check (true); 
-  -- Note: We might want to restrict status to 'pending' on insert, 
-  -- but simplest is allow insert and backend/admin handles status. 
-  -- Better: trigger to force status 'pending' or just rely on default.
-
--- Inquiries: Public can insert. Admin defines view.
-create policy "Public can submit inquiries"
-  on inquiries for insert
-  with check (true);
-
--- Resources: Public can view published.
-create policy "Public can view published resources"
-  on resources for select
-  using (published = true);
-
--- News: Public can view published.
-create policy "Public can view published news"
-  on news for select
-  using (published = true);
-
--- Board Members: Public can view all.
-create policy "Public can view board members"
-  on board_members for select
-  using (true);
-
--- STORAGE BUCKETS (Script cannot create buckets, but note for UI)
--- Bucket: resources-pdf (Public Read)
--- Bucket: ethics-documents (Public Read)
+-- Policy: Allow authenticated users to update
+create policy "Allow authenticated users to update"
+on public.therapist_applications
+for update
+to authenticated
+using (true);

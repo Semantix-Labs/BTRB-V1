@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
     title: 'Therapist Directory',
-    description: 'Find a certified behaviour therapist in Sri Lanka. All professionals listed here are verified by BTRB.',
+    description: 'Find a certified behaviour therapist in Sri Lanka. All professionals listed here are verified by BARB.',
 };
 
 export default function DirectoryPage({

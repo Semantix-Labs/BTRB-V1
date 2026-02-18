@@ -19,14 +19,14 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | BTRB",
-    default: "Behaviour Therapy Regulatory Board of Sri Lanka (BTRB)",
+    template: "%s | BARB",
+    default: "Behaviour Analysis Registration Board of Sri Lanka (BARB)",
   },
-  description: "Propelling the field of Behaviour Therapy in Sri Lanka. The official regulatory body for behaviour therapists.",
+  description: "Propelling the field of Behaviour Analysis in Sri Lanka. The official regulatory body for behaviour therapy professionals.",
   openGraph: {
     type: "website",
     locale: "en_LK",
-    siteName: "BTRB",
+    siteName: "BARB",
   },
 };
 

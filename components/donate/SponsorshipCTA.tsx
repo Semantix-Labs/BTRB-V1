@@ -17,7 +17,7 @@ export function SponsorshipCTA() {
                         </div>
                         <h2 className="text-3xl font-bold font-heading mb-4">Become a Corporate Sponsor</h2>
                         <p className="text-lg text-gray-300 leading-relaxed">
-                            Partner with BTRB to demonstrate your organization's commitment to mental health, ethical standards, and community welfare in Sri Lanka.
+                            Partner with BARB to demonstrate your organization's commitment to mental health, ethical standards, and community welfare in Sri Lanka.
                         </p>
                     </div>
                     <div className="relative z-10 md:w-1/3 flex justify-center md:justify-end">

@@ -30,7 +30,7 @@ export function TermsAndConditions({ formData, updateFormData }: ComponentProps)
                         onCheckedChange={(checked) => handleChange(!!checked, 'agreeObjectives')}
                     />
                     <Label htmlFor="agreeObjectives" className="leading-normal">
-                        I agree to the current objectives and articles of association of BTRB and will be informed of any future amendments to these documents.
+                        I agree to the current objectives and articles of association of BARB and will be informed of any future amendments to these documents.
                     </Label>
                 </div>
                 <div className="flex items-start space-x-2">
@@ -40,7 +40,7 @@ export function TermsAndConditions({ formData, updateFormData }: ComponentProps)
                         onCheckedChange={(checked) => handleChange(!!checked, 'agreeMaintenance')}
                     />
                     <Label htmlFor="agreeMaintenance" className="leading-normal">
-                        I agree to meet the maintenance criteria to renew my certification, including supervision requirements, as directed by 1) governing body (IBAO, BACB, etc.); and 2) BTRB guidelines.
+                        I agree to meet the maintenance criteria to renew my certification, including supervision requirements, as directed by 1) governing body (IBAO, BACB, etc.); and 2) BARB guidelines.
                     </Label>
                 </div>
                 <div className="flex items-start space-x-2">
@@ -70,7 +70,7 @@ export function TermsAndConditions({ formData, updateFormData }: ComponentProps)
                         onCheckedChange={(checked) => handleChange(!!checked, 'agreeMalpractice')}
                     />
                     <Label htmlFor="agreeMalpractice" className="leading-normal">
-                        I agree that BTRB is not responsible for my malpractice and/or any lawsuit against me.
+                        I agree that BARB is not responsible for my malpractice and/or any lawsuit against me.
                     </Label>
                 </div>
                 <div className="flex items-start space-x-2">
@@ -80,7 +80,7 @@ export function TermsAndConditions({ formData, updateFormData }: ComponentProps)
                         onCheckedChange={(checked) => handleChange(!!checked, 'agreeEthics')}
                     />
                     <Label htmlFor="agreeEthics" className="leading-normal">
-                        I agree to the prospective ethical guidelines of the BTRB. Until these guidelines are implemented, the BTRB will adopt and abide by the current IBAO code of ethics.
+                        I agree to the prospective ethical guidelines of the BARB. Until these guidelines are implemented, the BARB will adopt and abide by the current IBAO code of ethics.
                     </Label>
                 </div>
                 <div className="flex items-start space-x-2">

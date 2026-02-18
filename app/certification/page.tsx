@@ -11,7 +11,7 @@ import { CertificationFinalCTA } from "@/components/certification/CertificationF
 
 export const metadata: Metadata = {
     title: 'Certification | BARB',
-    description: 'Become a certified behaviour therapist with BTRB. Review eligibility, understand the process, and apply online.',
+    description: 'Become a certified behaviour therapist with BARB. Review eligibility, understand the process, and apply online.',
 };
 
 export default function CertificationPage() {

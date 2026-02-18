@@ -28,7 +28,7 @@ export function TrainingBenefits() {
                     </div>
 
                     <div className="lg:w-1/2">
-                        <h2 className="text-3xl font-bold font-heading text-[var(--color-primary)] mb-6">Why Train with BTRB?</h2>
+                        <h2 className="text-3xl font-bold font-heading text-[var(--color-primary)] mb-6">Why Train with BARB?</h2>
                         <p className="text-lg text-gray-700 mb-8 leading-relaxed">
                             Our training programs are rigorously developed to ensure you receive the highest quality education in behaviour therapy.
                         </p>

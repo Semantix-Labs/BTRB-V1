@@ -181,7 +181,7 @@ export function ContactForm() {
                         className="mt-1 w-4 h-4 text-[var(--color-secondary)] rounded border-gray-300 focus:ring-[var(--color-secondary)]"
                     />
                     <label htmlFor="privacy_consent" className="text-sm text-gray-600 cursor-pointer select-none">
-                        By submitting this form, I certify that I have read and accepted the Privacy Policy of BTRB.
+                        By submitting this form, I certify that I have read and accepted the Privacy Policy of BARB.
                     </label>
                 </div>
 

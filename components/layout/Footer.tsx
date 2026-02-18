@@ -11,7 +11,7 @@ export function Footer() {
                         <Link href="/" className="inline-block mb-4">
                             <Image
                                 src="/logo-white.png"
-                                alt="BTRB Logo"
+                                alt="BARB Logo"
                                 width={150}
                                 height={50}
                                 className="h-10 w-auto"
@@ -57,7 +57,7 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-gray-700 mt-12 pt-8 text-center text-xs text-gray-400">
-                    <p className="mb-2">© {new Date().getFullYear()} Behaviour Therapy Regulatory Board of Sri Lanka. All rights reserved.</p>
+                    <p className="mb-2">© {new Date().getFullYear()} Behaviour Analysis Registration Board of Sri Lanka. All rights reserved.</p>
                     <p>
                         Developed by <a href="https://www.semantixlabs.com" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">Semantix Labs (Pvt) Ltd</a>
                     </p>

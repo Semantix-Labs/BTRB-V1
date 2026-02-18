@@ -22,7 +22,7 @@ export function GrandparentingPathway() {
                     {/* Content Body */}
                     <div className="prose prose-lg text-gray-700 max-w-none text-center mb-12">
                         <p>
-                            The Grandparenting Pathway has been introduced to recognise professionals who have contributed to the field of behaviour therapy but may not yet meet the full criteria for direct certification. This pathway is available for a limited period of <strong>four (4) years</strong> during BTRB’s initial rollout.
+                            The Grandparenting Pathway has been introduced to recognise professionals who have contributed to the field of behaviour therapy but may not yet meet the full criteria for direct certification. This pathway is available for a limited period of <strong>four (4) years</strong> during BARB’s initial rollout.
                         </p>
                     </div>
 

@@ -14,7 +14,7 @@ export function BankDetailsCard() {
             <div className="space-y-6">
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
                     <span className="text-gray-500 font-medium text-sm">Account Name</span>
-                    <span className="font-bold text-[var(--color-primary)] text-right">BTRB Sri Lanka</span>
+                    <span className="font-bold text-[var(--color-primary)] text-right">BARB Sri Lanka</span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
                     <span className="text-gray-500 font-medium text-sm">Account Number</span>

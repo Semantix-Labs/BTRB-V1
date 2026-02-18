@@ -5,7 +5,7 @@ import { ChevronRight } from 'lucide-react';
 
 export const metadata: Metadata = {
     title: 'Apply for Certification',
-    description: 'Submit your application to become a certified behaviour therapist with BTRB.',
+    description: 'Submit your application to become a certified behaviour therapist with BARB.',
 };
 
 export default function ApplyPage() {

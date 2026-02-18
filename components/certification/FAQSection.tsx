@@ -9,7 +9,7 @@ import {
 const faqs = [
     {
         question: "Do I need a psychology degree to apply?",
-        answer: "No. What matters is accredited training, relevant experience, and meeting BTRB’s criteria."
+        answer: "No. What matters is accredited training, relevant experience, and meeting BARB’s criteria."
     },
     {
         question: "What’s the difference between a therapist and an analyst?",

@@ -9,7 +9,7 @@ import { TrainingFinalCTA } from "@/components/training/TrainingFinalCTA";
 
 export const metadata: Metadata = {
     title: 'Training & Professional Development | BARB',
-    description: 'Advance your career with BTRB professional workshops, capacity building programs, and approved training courses.',
+    description: 'Advance your career with BARB professional workshops, capacity building programs, and approved training courses.',
 };
 
 export default function TrainingPage() {

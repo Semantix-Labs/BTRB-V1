@@ -9,8 +9,8 @@ import { DonateImpactSnapshot } from "@/components/donate/DonateImpactSnapshot";
 import { DonateFinalCTA } from "@/components/donate/DonateFinalCTA";
 
 export const metadata: Metadata = {
-    title: 'Donate | BTRB',
-    description: 'Support the Behaviour Therapy Regulatory Board. Your contributions help fund training, public education, and ethical oversight.',
+    title: 'Donate | BARB',
+    description: 'Support the Behaviour Analysis Registration Board. Your contributions help fund training, public education, and ethical oversight.',
 };
 
 export default function DonatePage() {

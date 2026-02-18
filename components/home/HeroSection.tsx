@@ -9,7 +9,7 @@ export function HeroSection() {
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
                 <Image
                     src="/BTRB Hero image.jpg"
-                    alt="BTRB Hero Background"
+                    alt="BARB Hero Background"
                     fill
                     className="object-cover object-center"
                     priority

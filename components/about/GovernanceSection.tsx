@@ -13,7 +13,7 @@ export function GovernanceSection() {
                     <div className="md:w-2/3">
                         <h2 className="text-3xl font-bold font-heading mb-6">Governance & Ethics</h2>
                         <p className="text-lg text-gray-200 leading-relaxed mb-6">
-                            BTRB operates under a strictly defined Code of Ethics to ensure public trust, professional responsibility,
+                            BARB operates under a strictly defined Code of Ethics to ensure public trust, professional responsibility,
                             and the highest quality of care. All certified therapists are bound by these standards.
                         </p>
                         <p className="text-sm text-gray-400">

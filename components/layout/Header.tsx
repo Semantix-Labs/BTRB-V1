@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { MobileNav } from "./MobileNav";
 
 const navItems = [
     { label: "Home", href: "/" },
@@ -40,12 +41,12 @@ export function Header() {
                     ))}
                 </nav>
 
-                {/* CTA & Mobile Menu Trigger (Placeholder) */}
+                {/* CTA & Mobile Menu Trigger */}
                 <div className="flex items-center gap-4">
                     <Button asChild className="hidden md:inline-flex bg-[var(--color-accent)] text-white hover:bg-[#b0902b]">
                         <Link href="/certification/apply">Apply for Certification</Link>
                     </Button>
-                    {/* Mobile menu would go here */}
+                    <MobileNav items={navItems} />
                 </div>
             </div>
         </header>

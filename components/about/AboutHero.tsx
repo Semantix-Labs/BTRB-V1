@@ -23,7 +23,7 @@ export function AboutHero() {
                     </p>
 
                     <Button asChild size="lg" className="bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white shadow-xl h-14 px-8 text-lg font-semibold">
-                        <Link href="/certification/apply">Become a Certified Therapist</Link>
+                        <Link href="/certification/apply">Become Certified</Link>
                     </Button>
                 </div>
             </div>

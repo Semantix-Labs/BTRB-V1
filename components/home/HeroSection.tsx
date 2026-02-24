@@ -31,7 +31,7 @@ export function HeroSection() {
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
                     <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-[var(--color-primary)] mb-6 leading-tight drop-shadow-sm tracking-tight">
                         The Behaviour Analysis <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-blue-600">Registration Board</span>
+                        Registration Board
                     </h1>
 
                     <p className="text-xl md:text-2xl font-semibold text-[var(--color-secondary)] mb-6 uppercase tracking-wider">
@@ -45,7 +45,7 @@ export function HeroSection() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-5 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
                     <Button asChild size="lg" className="min-w-[240px] h-14 text-lg font-semibold shadow-xl shadow-blue-900/10 hover:shadow-2xl hover:-translate-y-1 transition-all bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90">
-                        <Link href="/certification/apply">Become a Certified Therapist</Link>
+                        <Link href="/certification/apply">Become Certified</Link>
                     </Button>
                 </div>
             </div>

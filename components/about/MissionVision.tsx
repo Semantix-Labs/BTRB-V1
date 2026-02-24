@@ -21,7 +21,7 @@ export function MissionVision() {
                             Our Vision
                         </h2>
                         <p className="text-lg text-gray-700 leading-relaxed flex-grow">
-                            A future where every person receives care that is competent, compassionate, and grounded in Science; delivered by certified professionals held to the highest ethical standards.
+                            A future where every person receives care that is competent, compassionate, and grounded in science; delivered by certified professionals held to the highest ethical standards.
                         </p>
                     </div>
                 </div>

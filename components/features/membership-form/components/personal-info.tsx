@@ -30,7 +30,7 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
             <h2 className="text-2xl font-semibold">Section 1. Personal Information</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                    <Label htmlFor="firstName">First name </Label>
+                    <Label htmlFor="firstName">First name <span className="text-red-500">*</span></Label>
                     <Input
                         id="firstName"
                         name="firstName"
@@ -40,7 +40,7 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div>
-                    <Label htmlFor="surname">Surname </Label>
+                    <Label htmlFor="surname">Surname <span className="text-red-500">*</span></Label>
                     <Input
                         id="surname"
                         name="surname"
@@ -50,17 +50,18 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div>
-                    <Label htmlFor="dateOfBirth">Date of Birth (DD/MM/YY) </Label>
+                    <Label htmlFor="dateOfBirth">Date of Birth <span className="text-red-500">*</span></Label>
                     <Input
                         id="dateOfBirth"
                         name="dateOfBirth"
+                        type="date"
                         value={formData.dateOfBirth || ''}
                         onChange={handleChange}
                         required
                     />
                 </div>
                 <div className="sm:col-span-2">
-                    <Label htmlFor="address">Address </Label>
+                    <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
                     <Input
                         id="address"
                         name="address"
@@ -70,7 +71,7 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div>
-                    <Label htmlFor="phone">Phone </Label>
+                    <Label htmlFor="phone">Phone <span className="text-red-500">*</span></Label>
                     <Input
                         id="phone"
                         name="phone"
@@ -89,7 +90,7 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div>
-                    <Label htmlFor="email">Email </Label>
+                    <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
                     <Input
                         id="email"
                         name="email"
@@ -100,7 +101,7 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div className="sm:col-span-2">
-                    <Label htmlFor="nicOrPassport">NIC or Passport </Label>
+                    <Label htmlFor="nicOrPassport">NIC or Passport <span className="text-red-500">*</span></Label>
                     <Input
                         id="nicOrPassport"
                         name="nicOrPassport"

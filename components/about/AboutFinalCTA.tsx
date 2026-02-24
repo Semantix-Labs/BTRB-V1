@@ -27,7 +27,7 @@ export function AboutFinalCTA() {
                     </h2>
 
                     <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-8 font-light">
-                        BARB is at the beginning of a bold journey; establishing national standards, certifying a new generation of professionals, and collaborating with global partners to elevate care throughout Sri Lanka and the Global South.
+                        BARB is at the beginning of a bold journey; establishing national standards, certifying a new generation of professionals, and collaborating with global partners to elevate care throughout Sri Lanka.
                     </p>
 
                     <p className="text-base text-gray-600 font-medium mb-8">

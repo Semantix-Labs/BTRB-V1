@@ -1,7 +1,7 @@
 export function DonateImpactSnapshot() {
     const stats = [
         {
-            value: "10+",
+            value: "30+",
             label: "Certified professionals trained in 2024 with donor support"
         },
         {

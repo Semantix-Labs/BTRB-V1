@@ -15,26 +15,26 @@ const navItems = [
 export function Header() {
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
-            <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+            <div className="container mx-auto flex py-5 md:py-6 items-center justify-between px-4 md:px-6">
                 {/* Logo Area */}
                 <Link href="/" className="flex items-center gap-2">
                     <Image
                         src="/logo.png"
                         alt="BARB Logo"
-                        width={180}
-                        height={60}
-                        className="h-12 w-auto"
+                        width={240}
+                        height={80}
+                        className="h-16 w-auto"
                         priority
                     />
                 </Link>
 
                 {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-6">
+                <nav className="hidden md:flex items-center gap-8">
                     {navItems.map((item) => (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className="text-sm font-medium text-gray-700 hover:text-[var(--color-primary)] transition-colors"
+                            className="text-base font-medium text-gray-700 hover:text-[var(--color-primary)] transition-colors"
                         >
                             {item.label}
                         </Link>

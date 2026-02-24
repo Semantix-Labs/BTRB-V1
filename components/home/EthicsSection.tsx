@@ -24,7 +24,7 @@ export function EthicsSection() {
 
                         <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6 leading-tight">
                             Setting The Standard For <br />
-                            <span className="text-yellow-400">Ethical Behaviour Therapy</span>
+                            <span className="text-[#C1A033]">Ethical Behaviour Therapy</span>
                         </h2>
 
                         <p className="text-lg md:text-xl text-blue-50 mb-6 leading-relaxed">

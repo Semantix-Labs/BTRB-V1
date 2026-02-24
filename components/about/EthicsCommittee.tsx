@@ -26,14 +26,14 @@ export function EthicsCommittee() {
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
                         <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
-                            <Scale className="w-6 h-6 text-yellow-400" />
+                            <Scale className="w-6 h-6 text-[#C1A033]" />
                             Key Responsibilities
                         </h3>
 
                         <ul className="space-y-6">
                             <li className="flex gap-4">
                                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                    <ShieldAlert className="w-5 h-5 text-yellow-400" />
+                                    <ShieldAlert className="w-5 h-5 text-[#C1A033]" />
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-sm uppercase tracking-wide opacity-80 mb-1">Review</h4>
@@ -42,7 +42,7 @@ export function EthicsCommittee() {
                             </li>
                             <li className="flex gap-4">
                                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                    <FileText className="w-5 h-5 text-yellow-400" />
+                                    <FileText className="w-5 h-5 text-[#C1A033]" />
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-sm uppercase tracking-wide opacity-80 mb-1">Enforce</h4>
@@ -51,7 +51,7 @@ export function EthicsCommittee() {
                             </li>
                             <li className="flex gap-4">
                                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                                    <Gavel className="w-5 h-5 text-yellow-400" />
+                                    <Gavel className="w-5 h-5 text-[#C1A033]" />
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-sm uppercase tracking-wide opacity-80 mb-1">Support</h4>

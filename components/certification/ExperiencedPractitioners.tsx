@@ -9,7 +9,7 @@ export function ExperiencedPractitioners() {
             <div className="container relative mx-auto px-4 md:px-6 z-10 text-center">
                 <div className="max-w-4xl mx-auto">
                     <div className="inline-block p-3 rounded-full bg-white/10 mb-6">
-                        <Award className="w-8 h-8 text-yellow-400" />
+                        <Award className="w-8 h-8 text-[#C1A033]" />
                     </div>
 
                     <h2 className="text-3xl font-bold font-heading mb-6 leading-tight">
@@ -25,21 +25,21 @@ export function ExperiencedPractitioners() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <ul className="space-y-4">
                                 <li className="flex gap-3 items-start">
-                                    <CheckCircle2 className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                                    <CheckCircle2 className="w-5 h-5 text-[#C1A033] flex-shrink-0 mt-0.5" />
                                     <span className="text-blue-50 text-sm leading-relaxed">Demonstrate relevant work experience and supporting documentation</span>
                                 </li>
                                 <li className="flex gap-3 items-start">
-                                    <CheckCircle2 className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                                    <CheckCircle2 className="w-5 h-5 text-[#C1A033] flex-shrink-0 mt-0.5" />
                                     <span className="text-blue-50 text-sm leading-relaxed">Pass the basic ABA knowledge and ethics exams</span>
                                 </li>
                             </ul>
                             <ul className="space-y-4">
                                 <li className="flex gap-3 items-start">
-                                    <CheckCircle2 className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                                    <CheckCircle2 className="w-5 h-5 text-[#C1A033] flex-shrink-0 mt-0.5" />
                                     <span className="text-blue-50 text-sm leading-relaxed">Attend an interview with BARB’s review panel</span>
                                 </li>
                                 <li className="flex gap-3 items-start">
-                                    <CheckCircle2 className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                                    <CheckCircle2 className="w-5 h-5 text-[#C1A033] flex-shrink-0 mt-0.5" />
                                     <span className="text-blue-50 text-sm leading-relaxed">Complete a 40-hour ABA training course within the four-year period</span>
                                 </li>
                             </ul>

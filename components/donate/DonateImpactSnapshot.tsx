@@ -29,7 +29,7 @@ export function DonateImpactSnapshot() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
                     {stats.map((stat, index) => (
                         <div key={index} className="p-4">
-                            <div className="text-5xl md:text-6xl font-bold font-heading text-yellow-400 mb-4">{stat.value}</div>
+                            <div className="text-5xl md:text-6xl font-bold font-heading text-[#C1A033] mb-4">{stat.value}</div>
                             <p className="text-blue-100 text-lg leading-relaxed">{stat.label}</p>
                         </div>
                     ))}

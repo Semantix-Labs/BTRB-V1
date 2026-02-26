@@ -15,9 +15,11 @@ export default function DirectoryPage({
 }: {
     searchParams?: {
         query?: string;
+        status?: string;
     };
 }) {
     const query = searchParams?.query || '';
+    const status = searchParams?.status || 'all';
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -60,13 +62,23 @@ export default function DirectoryPage({
                                 <li>Confirm current certification status</li>
                             </ul>
                         </div>
-                        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex-1 md:max-w-xs w-full">
-                            <h3 className="font-semibold text-gray-900 mb-2 text-sm uppercase tracking-wider">Status Note</h3>
-                            <div className="flex items-center gap-2 mb-2">
-                                <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                                <span className="text-sm text-gray-700 font-medium">Certified = Active</span>
+                        <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm flex-1 md:max-w-md w-full">
+                            <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">Status Note</h3>
+                            <div className="flex flex-col gap-2 mb-3 border-b border-gray-100 pb-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-green-500 shrink-0" />
+                                    <span className="text-sm text-gray-700 font-medium">Authorized : Certified & Practicing</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0" />
+                                    <span className="text-sm text-gray-700 font-medium">Unauthorized : Certified & Not Practicing</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shrink-0" />
+                                    <span className="text-sm text-gray-700 font-medium">Approved Professionals : Not Certified</span>
+                                </div>
                             </div>
-                            <p className="text-xs text-gray-500 italic mt-2 border-t border-gray-100 pt-2">
+                            <p className="text-xs text-gray-500 italic mt-1">
                                 <span className="font-semibold text-gray-700">Not Listed?</span> That provider is not currently certified through BARB.
                             </p>
                         </div>
@@ -85,8 +97,34 @@ export default function DirectoryPage({
                             <Loader2 className="w-8 h-8 animate-spin text-[var(--color-primary)]" />
                         </div>
                     }>
-                        <DirectoryList query={query} />
+                        <DirectoryList query={query} status={status} />
                     </Suspense>
+                </div>
+            </section>
+
+            {/* Approved Professionals Disclaimer */}
+            <section className="py-12 bg-gray-50 border-t border-gray-200">
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <FileText className="w-5 h-5 text-gray-500" />
+                            “Approved” Professionals Disclaimer
+                        </h3>
+                        <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
+                            <p>
+                                Professionals listed as “Approved” in the BARB Directory have met the relevant theoretical requirements in applied behaviour analysis. They are not certified or regulated by BARB. They remain regulated by their own recognised professional or statutory bodies.
+                            </p>
+                            <p>
+                                “Approved” status may be granted to psychiatrists, physicians, clinical psychologists, speech and language therapists, occupational therapists, and physiotherapists.
+                            </p>
+                            <div className="pt-4 mt-4 border-t border-gray-100">
+                                <p className="font-medium text-gray-900 mb-1">Note:</p>
+                                <p className="text-gray-600">
+                                    Inclusion in the BARB Directory does not imply that BARB licenses, regulates, or oversees the individual’s primary professional practice. Regulation and professional accountability remain the responsibility of the practitioner’s respective governing body.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 

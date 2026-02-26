@@ -157,14 +157,14 @@ export default function AboutTherapyPage() {
             </section>
 
             {/* Final CTA Section */}
-            <section className="py-24 bg-[var(--color-primary)] text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+            <section className="py-24 bg-blue-50 border-t border-blue-100 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-primary)]/5 rounded-full blur-3xl" />
                 <div className="container relative mx-auto px-4 md:px-6 z-10 text-center">
-                    <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6">Have Questions or Need Support?</h2>
-                    <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto mb-10">
+                    <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6 text-[var(--color-primary)]">Have Questions or Need Support?</h2>
+                    <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-10">
                         Whether you're a parent exploring options or a professional seeking training, we’re here to help you find the answers.
                     </p>
-                    <Button asChild size="lg" className="bg-white text-[var(--color-primary)] hover:bg-white/90 font-semibold h-14 px-8 text-lg">
+                    <Button asChild size="lg" className="bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary)]/90 font-semibold h-14 px-8 text-lg">
                         <Link href="/contact">Get in Touch With Us →</Link>
                     </Button>
                 </div>

@@ -4,19 +4,32 @@ import { AlertCircle } from "lucide-react";
 
 export async function DirectoryList({
     query,
+    status = 'all'
 }: {
     query: string;
+    status?: string;
 }) {
     let dbQuery = supabase
-        .from('therapists')
-        .select('*')
-        .eq('status', 'active'); // ONLY show active therapists
+        .from('public_directory')
+        .select('*');
 
-    if (query) {
-        dbQuery = dbQuery.or(`full_name.ilike.%${query}%,specialization.ilike.%${query}%,address.ilike.%${query}%`);
+    // Filter by status
+    if (status === 'authorized') {
+        dbQuery = dbQuery.eq('status', 'authorized_active');
+    } else if (status === 'unauthorized') {
+        dbQuery = dbQuery.eq('status', 'unauthorized_inactive');
+    } else if (status === 'approved') {
+        dbQuery = dbQuery.eq('status', 'approved_non_certified');
+    } else {
+        // 'all' or default
+        dbQuery = dbQuery.in('status', ['authorized_active', 'unauthorized_inactive', 'approved_non_certified']);
     }
 
-    const { data: therapists, error } = await dbQuery;
+    if (query) {
+        dbQuery = dbQuery.or(`full_name.ilike.%${query}%,designation.ilike.%${query}%,work_place_address.ilike.%${query}%`);
+    }
+
+    let { data: therapists, error } = await dbQuery;
 
     if (error) {
         console.error("Directory fetch error:", error);
@@ -35,7 +48,7 @@ export async function DirectoryList({
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-1">No Therapists Found</h3>
                 <p className="text-gray-500 max-w-md mx-auto">
-                    {query ? `No active therapists match "${query}".` : "Our directory is currently being updated. Please check back soon."}
+                    {query ? `No therapists match "${query}".` : "Our directory is currently being updated. Please check back soon."}
                 </p>
             </div>
         );

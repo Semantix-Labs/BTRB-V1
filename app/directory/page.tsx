@@ -4,22 +4,35 @@ import { DirectorySearch } from "@/components/directory/DirectorySearch";
 import { DirectoryList } from "@/components/directory/DirectoryList";
 import { Loader2, FileText, ShieldAlert } from "lucide-react";
 import Link from 'next/link';
+import { supabase } from "@/lib/supabase/client";
 
 export const metadata: Metadata = {
     title: 'Therapist Directory - BARB',
     description: 'Find a certified behaviour therapist in Sri Lanka. All professionals listed here are verified by BARB.',
 };
 
-export default function DirectoryPage({
+export default async function DirectoryPage({
     searchParams,
 }: {
     searchParams?: {
         query?: string;
         status?: string;
+        city?: string;
+        speciality?: string;
     };
 }) {
     const query = searchParams?.query || '';
     const status = searchParams?.status || 'all';
+    const city = searchParams?.city || '';
+    const speciality = searchParams?.speciality || '';
+
+    // Fetch unique cities and specialities for dropdowns
+    const { data: filterData } = await supabase
+        .from('public_directory')
+        .select('city, designation');
+
+    const uniqueCities = Array.from(new Set(filterData?.map(d => d.city).filter(Boolean))).sort() as string[];
+    const uniqueSpecialities = Array.from(new Set(filterData?.map(d => d.designation).filter(Boolean))).sort() as string[];
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -35,7 +48,7 @@ export default function DirectoryPage({
                     <h1 className="text-3xl md:text-5xl font-bold font-heading text-[var(--color-primary)] mb-6">
                         Need Support? Start With Someone You Can Trust.
                     </h1>
-                    <div className="max-w-3xl mx-auto space-y-4 mb-10">
+                    <div className="max-w-3xl mx-auto space-y-4 mb-4">
                         <p className="text-lg text-gray-700 leading-relaxed font-light">
                             This directory lists all BARB-certified professionals currently in good standing. Every individual listed here has been vetted, approved, and is held accountable to our Code of Ethics and certification standards.
                         </p>
@@ -43,10 +56,6 @@ export default function DirectoryPage({
                             Whether you're a caregiver, educator, or healthcare provider; you deserve to work with someone qualified.
                         </p>
                     </div>
-
-                    <Suspense fallback={<div className="h-14 bg-gray-100 rounded-full max-w-xl mx-auto mb-16 animate-pulse" />}>
-                        <DirectorySearch />
-                    </Suspense>
                 </div>
             </section>
 
@@ -89,15 +98,18 @@ export default function DirectoryPage({
             {/* Results Area */}
             <section className="py-12 flex-grow bg-white">
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="max-w-5xl mx-auto mb-6">
-                        <h2 className="text-2xl font-bold font-heading text-[var(--color-primary)]">Find a Certified Behaviour Therapist or Analyst in Sri Lanka</h2>
+                    <div className="max-w-5xl mx-auto mb-10 text-center">
+                        <h2 className="text-2xl font-bold font-heading text-[var(--color-primary)] mb-6">Find a Certified Behaviour Therapist or Analyst in Sri Lanka</h2>
+                        <Suspense fallback={<div className="h-20 bg-gray-100 rounded-lg max-w-4xl mx-auto mb-10 animate-pulse" />}>
+                            <DirectorySearch cities={uniqueCities} specialities={uniqueSpecialities} />
+                        </Suspense>
                     </div>
                     <Suspense fallback={
                         <div className="flex justify-center py-20">
                             <Loader2 className="w-8 h-8 animate-spin text-[var(--color-primary)]" />
                         </div>
                     }>
-                        <DirectoryList query={query} status={status} />
+                        <DirectoryList query={query} status={status} city={city} speciality={speciality} />
                     </Suspense>
                 </div>
             </section>

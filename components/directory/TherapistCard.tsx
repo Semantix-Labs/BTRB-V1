@@ -7,6 +7,7 @@ export interface Therapist {
     designation: string | null;
     registration_number: string | null;
     work_place_address: string | null;
+    city: string | null;
     profile_image_url: string | null;
     bio: string | null;
     status: string;
@@ -60,8 +61,10 @@ export function TherapistCard({ therapist }: { therapist: Therapist }) {
 
                     {therapist.work_place_address && (
                         <div className="flex items-start gap-2 text-gray-500 text-sm mb-3">
-                            <MapPin className="w-4 h-4 shrink-0 mt-0.5" />
-                            <span>{therapist.work_place_address}</span>
+                            <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-gray-400" />
+                            <span>
+                                {[therapist.work_place_address, therapist.city].filter(Boolean).join(', ')}
+                            </span>
                         </div>
                     )}
 

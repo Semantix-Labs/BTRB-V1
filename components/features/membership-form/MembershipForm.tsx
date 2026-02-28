@@ -31,7 +31,9 @@ export function MembershipForm() {
                     formData.firstName?.trim() &&
                     formData.surname?.trim() &&
                     formData.dateOfBirth?.trim() &&
-                    formData.address?.trim() &&
+                    formData.addressLine?.trim() &&
+                    formData.city?.trim() &&
+                    formData.postCode?.trim() &&
                     formData.phone?.trim() &&
                     formData.email?.trim() &&
                     formData.nicOrPassport?.trim()

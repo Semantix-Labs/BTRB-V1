@@ -61,11 +61,31 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div className="sm:col-span-2">
-                    <Label htmlFor="address">Address <span className="text-red-500">*</span></Label>
+                    <Label htmlFor="addressLine">Address Line <span className="text-red-500">*</span></Label>
                     <Input
-                        id="address"
-                        name="address"
-                        value={formData.address || ''}
+                        id="addressLine"
+                        name="addressLine"
+                        value={formData.addressLine || ''}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <Label htmlFor="city">City <span className="text-red-500">*</span></Label>
+                    <Input
+                        id="city"
+                        name="city"
+                        value={formData.city || ''}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <Label htmlFor="postCode">Post Code <span className="text-red-500">*</span></Label>
+                    <Input
+                        id="postCode"
+                        name="postCode"
+                        value={formData.postCode || ''}
                         onChange={handleChange}
                         required
                     />

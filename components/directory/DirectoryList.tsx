@@ -4,10 +4,14 @@ import { AlertCircle } from "lucide-react";
 
 export async function DirectoryList({
     query,
-    status = 'all'
+    status = 'all',
+    city,
+    speciality
 }: {
     query: string;
     status?: string;
+    city?: string;
+    speciality?: string;
 }) {
     let dbQuery = supabase
         .from('public_directory')
@@ -26,7 +30,15 @@ export async function DirectoryList({
     }
 
     if (query) {
-        dbQuery = dbQuery.or(`full_name.ilike.%${query}%,designation.ilike.%${query}%,work_place_address.ilike.%${query}%`);
+        dbQuery = dbQuery.or(`full_name.ilike.%${query}%,designation.ilike.%${query}%,work_place_address.ilike.%${query}%,city.ilike.%${query}%`);
+    }
+
+    if (city) {
+        dbQuery = dbQuery.eq('city', city);
+    }
+
+    if (speciality) {
+        dbQuery = dbQuery.eq('designation', speciality);
     }
 
     let { data: therapists, error } = await dbQuery;

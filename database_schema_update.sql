@@ -25,7 +25,9 @@ CREATE TABLE therapist_applications (
     first_name text,
     surname text,
     date_of_birth date,
-    address text,
+    address_line text,
+    city text,
+    post_code text,
     phone text,
     phone_optional text,
     email text,
@@ -109,6 +111,8 @@ CREATE TABLE therapists (
   -- Professional Info
   work_place_name text,
   work_place_address text,
+  city text,
+  post_code text,
   designation text,
   
   -- UI Directory Overrides
@@ -166,6 +170,7 @@ SELECT
   designation,
   work_place_name,
   work_place_address,
+  city,
   status
 FROM therapists
 WHERE directory_visible = true;
@@ -200,14 +205,15 @@ INSERT INTO therapists (
   surname, 
   designation, 
   registration_number, 
-  work_place_address, 
+  work_place_address,
+  city,
   bio, 
   status, 
   directory_visible
 ) VALUES
-('Sarah', 'Jennings', 'Autism Spectrum Disorder', 'BARB-2024-001', 'Colombo 03, Sri Lanka', 'Over 15 years of experience specializing in early intervention for children with autism.', 'authorized_active', true),
-('David', 'Perera', 'Behavioral Support in Schools', 'BARB-2024-042', 'Kandy, Sri Lanka', 'Expert in developing inclusive classroom environments and training educational staff.', 'authorized_active', true),
-('Jane', 'Fernando', 'ADHD and Self-Regulation', 'BARB-2022-015', 'Galle, Sri Lanka', 'Currently on a leave of absence for further research.', 'unauthorized_inactive', true),
-('Michael', 'Silva', 'Teens and Young Adults', 'BARB-2021-089', 'Moratuwa, Sri Lanka', 'Specialized in transition planning and vocational skills training.', 'unauthorized_inactive', true),
-('Amila', 'Ratnayake', 'Clinical Psychology', 'SLMC-4592', 'Nugegoda, Sri Lanka', 'Approved practitioner offering integrated clinical and behavioral support services.', 'approved_non_certified', true),
-('Natasha', 'Wijesooriya', 'Speech and Language Therapy', 'SLMC-8821', 'Colombo 07, Sri Lanka', 'Approved professional providing specialized communication intervention programs.', 'approved_non_certified', true);
+('Sarah', 'Jennings', 'Autism Spectrum Disorder', 'BARB-2024-001', '142 Galle Road', 'Colombo', 'Over 15 years of experience specializing in early intervention for children with autism.', 'authorized_active', true),
+('David', 'Perera', 'Behavioral Support in Schools', 'BARB-2024-042', '88 Peradeniya Road', 'Kandy', 'Expert in developing inclusive classroom environments and training educational staff.', 'authorized_active', true),
+('Jane', 'Fernando', 'ADHD and Self-Regulation', 'BARB-2022-015', '45 Main Street', 'Galle', 'Currently on a leave of absence for further research.', 'unauthorized_inactive', true),
+('Michael', 'Silva', 'Teens and Young Adults', 'BARB-2021-089', '12 Mendis Lane', 'Moratuwa', 'Specialized in transition planning and vocational skills training.', 'unauthorized_inactive', true),
+('Amila', 'Ratnayake', 'Clinical Psychology', 'SLMC-4592', '77 High Level Road', 'Nugegoda', 'Approved practitioner offering integrated clinical and behavioral support services.', 'approved_non_certified', true),
+('Natasha', 'Wijesooriya', 'Speech and Language Therapy', 'SLMC-8821', '21 Horton Place', 'Colombo', 'Approved professional providing specialized communication intervention programs.', 'approved_non_certified', true);

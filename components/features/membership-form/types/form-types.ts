@@ -3,7 +3,9 @@ export interface ApplicationFormData {
     firstName?: string;
     surname?: string;
     dateOfBirth?: string;
-    address?: string;
+    addressLine?: string;
+    city?: string;
+    postCode?: string;
     phone?: string;
     phoneOptional?: string; // Optional phone number
     email?: string;

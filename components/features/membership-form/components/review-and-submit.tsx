@@ -69,7 +69,9 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 first_name: formData.firstName,
                 surname: formData.surname,
                 date_of_birth: formData.dateOfBirth,
-                address: formData.address,
+                address_line: formData.addressLine,
+                city: formData.city,
+                post_code: formData.postCode,
                 phone: formData.phone,
                 phone_optional: formData.phoneOptional,
                 email: formData.email,
@@ -189,7 +191,7 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 </div>
                 <div>
                     <span className="font-semibold block text-gray-900">Address:</span>
-                    {formData.address}
+                    {[formData.addressLine, formData.city, formData.postCode].filter(Boolean).join(', ')}
                 </div>
                 <div>
                     <span className="font-semibold block text-gray-900">Specialization:</span>

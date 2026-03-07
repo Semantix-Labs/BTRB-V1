@@ -80,7 +80,7 @@ export function TermsAndConditions({ formData, updateFormData }: ComponentProps)
                         onCheckedChange={(checked) => handleChange(!!checked, 'agreeEthics')}
                     />
                     <Label htmlFor="agreeEthics" className="leading-normal">
-                        I agree to the prospective ethical guidelines of the BARB. Until these guidelines are implemented, the BARB will adopt and abide by the current IBAO code of ethics.
+                        I agree to the prospective ethical guidelines of the BARB. Until these guidelines are implemented, the BARB will adopt and abide by the current <a href="/IBAO-Ethical-Guidelines-V100.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">IBAO code of ethics</a>.
                     </Label>
                 </div>
                 <div className="flex items-start space-x-2">

@@ -50,7 +50,7 @@ export function Footer() {
                     <div>
                         <h4 className="font-semibold mb-4 text-[var(--color-accent)]">Legal</h4>
                         <ul className="space-y-2 text-sm text-gray-300">
-                            <li><Link href="/legal/ethical-standards" className="hover:text-white">Ethical Standards</Link></li>
+                            <li><a href="/IBAO-Ethical-Guidelines-V100.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-white">Ethical Standards</a></li>
                             <li><Link href="/legal/terms" className="hover:text-white">Terms & Conditions</Link></li>
                         </ul>
                     </div>

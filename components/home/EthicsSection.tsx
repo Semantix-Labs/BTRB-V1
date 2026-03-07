@@ -37,7 +37,7 @@ export function EthicsSection() {
 
                         <Button asChild size="lg" className="bg-white text-[var(--color-primary)] hover:bg-white/90 font-semibold h-14 px-8 text-lg">
                             {/* TODO: Link to PDF if available, or page */}
-                            <Link href="/legal/ethical-standards">Explore Our Code of Ethics</Link>
+                            <a href="/IBAO-Ethical-Guidelines-V100.pdf" target="_blank" rel="noopener noreferrer">Explore Our Code of Ethics</a>
                         </Button>
                     </div>
 

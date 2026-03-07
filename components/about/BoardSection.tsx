@@ -23,9 +23,9 @@ const members = [
         id: "3",
         name: "Samantha Fernando",
         role: "Treasurer",
-        credentials: "RBT | IBT | MSc Applied Psychology",
-        bio: "Samantha is a highly qualified advocate and Co-Founder of a Multi-Disciplinary Centre for children with developmental disabilities, including autism, with over 15 years of experience. Her pioneering work in Sri Lanka includes launching the nation’s first tri-lingual disability parent support group (2016) and organizing the first ABA awareness conference (2007). Prior to her work in Special Needs Education, she spent over a decade as a Brand Manager using her marketing background. Samantha is deeply committed to promoting societal acceptance and life and work inclusion for all persons.",
-        image: null
+        credentials: "RBT, IBT, MSC APPLIED PSYCHOLOGY",
+        bio: "Samantha is a highly qualified advocate and Co Founder of a multidisciplinary centre for children with developmental disabilities, including autism, called Reach Beyond. She is a Registered Behaviour Technician (USA) and an International Behaviour Therapist specialising in autism and ADHD. She has over 15 years of experience working with children with special needs and is the mother of a son on the autism spectrum. Her pioneering work in Sri Lanka includes launching the nation’s first trilingual disability parent support group in 2016 and organising the first ABA awareness conference in 2007. Samantha is deeply committed to promoting societal acceptance and inclusion in both life and work for all persons.",
+        image: "/Samantha Profile Photo.jpeg"
     }
 ];
 

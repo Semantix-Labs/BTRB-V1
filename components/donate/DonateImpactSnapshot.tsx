@@ -1,16 +1,16 @@
 export function DonateImpactSnapshot() {
     const stats = [
         {
-            value: "30+",
-            label: "Certified professionals trained in 2024 with donor support"
+            value: "60+",
+            label: "Professionals trained in 2024, 2025 & 2026"
         },
         {
-            value: "4",
-            label: "Awareness programs hosted in underserved areas"
+            value: "20+",
+            label: "Awareness programmes hosted in underserved areas"
         },
         {
-            value: "80%",
-            label: "Of families reported improved confidence in accessing therapy"
+            value: "3",
+            label: "Credentialing levels such as RBT-SL, RBA-SL & Approved Professionals to ensure quality, accountability and ethical practice across the field"
         }
     ];
 

@@ -5,19 +5,26 @@ import Image from "next/image";
 const members = [
     {
         id: "1",
-        name: "Dr. Anton James",
+        name: "Dr Anton James",
         role: "President",
-        credentials: "PhD, FBPsS, CPsychol, CSci, CEA, BCBA, IBA",
-        bio: "Dr. Anton James introduced certified behaviour therapy to Sri Lanka and established the country’s first ABA-based school for children with additional needs, The Tree House International, run by certified Behaviour Therapists and Behaviour Analysts. A leader in Applied Behaviour Analysis with over 20 years of global experience, he is the first professional from Sri Lanka to be certified as a Behaviour Analyst by the Behaviour Analyst Certification Board. He is also certified as a Behaviour Analyst in Ontario and the United Kingdom. He serves as a Professional Advisory Board Member for the International Behaviour Analysis Organisation and is a Subject Matter Expert in Applied Behaviour Analysis, contributing to the development of pre-approved ABA curricula for institutions worldwide. He is a Chartered Behavioural Psychologist, a Chartered Scientist, and a Chartered Educational Assessor.",
+        credentials: "PhD | FBPsS | CPsychol | CSci | CEA | BCBA | IBA",
+        bio: [
+            "Dr Anton James has over 20 years of global experience in Applied Behaviour Analysis (ABA). He is a Board Certified Behavior Analyst (BCBA) in the United States, a Certified Behaviour Analyst in the United Kingdom, and a Registered Behaviour Analyst in Ontario, Canada. He is also an International Behaviour Analyst (IBA) with the International Behaviour Analysis Organisation (IBAO). He serves on the Professional Advisory Board of IBAO and is recognised as a Subject Matter Expert in Applied Behaviour Analysis.",
+            "He was the first person from Sri Lanka to obtain an internationally recognised certification in Applied Behaviour Analysis. He introduced certified Behaviour Therapy to Sri Lanka and founded the Behaviour Analysis Registration Board (BARB). He is the Director of The Tree House International, which introduced Sri Lanka’s first IBAO pre-approved ABA curriculum.",
+            "Dr Anton James is a Chartered Behavioural Psychologist in the Republic of Ireland, a Chartered Psychologist in the United Kingdom, a Chartered Scientist (UK), and a Chartered Educational Assessor (UK). He has been elected as a Fellow of both the British Psychological Society and the Psychological Society of Ireland.",
+        ],
         image: "/Dr. Anton.jpeg",
         imageClassName: "object-cover object-top"
     },
     {
         id: "2",
-        name: "Chrystal (CJ) Honsaker",
+        name: "Chrystal Honsaker",
         role: "Secretary",
         credentials: "BCBA | IBA | LBA | MEd | PhD Candidate",
-        bio: "Chrystal (CJ) Honsaker is a Behavior Analyst with over 23 years of experience in Applied Behavior Analysis (ABA). She has directed regional ABA programs, supervised clinical teams, and trained emerging behavior analysts, with a strong emphasis on ethical, data-driven service delivery and professional accountability. Her expertise in International Psychology, specializing in Organizations and Systems, informs her work in strengthening regulatory frameworks and developing sustainable behavioral service systems.",
+        bio: [
+            "Chrystal Honsaker is a Behaviour Analyst with 23 years of experience in Applied Behaviour Analysis (ABA). She is a Board Certified Behaviour Analyst (BCBA), a Licensed Behavior Analyst (LBA) in the state of Hawaii (USA), and an International Behaviour Analyst (IBA) through the International Behaviour Analysis Organization (IBAO). She has held numerous leadership roles directing regional ABA programmes, overseeing clinical operations, and supervising and training behaviour analysts and behaviour therapists.",
+            "Chrystal is a Founder of the Behaviour Analysis Registration Board (BARB) and currently serves as the Assistant Director of The Tree House International. She holds a graduate certification in Organizational Behavior from Harvard Extension School (USA), and her work focuses on strengthening organisational practices within ABA while advancing sustainable, high-quality behavioural services. With expertise in International Psychology, specialising in Organisations and Systems, she applies a systems-level perspective to service delivery models informed by her work in diverse cross-cultural and international ABA contexts.",
+        ],
         image: "/Chrystal (CJ) Honsaker.jpeg",
         imageClassName: "object-cover object-top"
     },
@@ -25,8 +32,10 @@ const members = [
         id: "3",
         name: "Samantha Fernando",
         role: "Treasurer",
-        credentials: "RBT, IBT, MSC APPLIED PSYCHOLOGY",
-        bio: "Samantha is a highly qualified advocate and Co Founder of a multidisciplinary centre for children with developmental disabilities, including autism, called Reach Beyond. She is a Registered Behaviour Technician (USA) and an International Behaviour Therapist specialising in autism and ADHD. She has over 15 years of experience working with children with special needs and is the mother of a son on the autism spectrum. Her pioneering work in Sri Lanka includes launching the nation’s first trilingual disability parent support group in 2016 and organising the first ABA awareness conference in 2007. Samantha is deeply committed to promoting societal acceptance and inclusion in both life and work for all persons.",
+        credentials: "RBT | IBT | MSC APPLIED PSYCHOLOGY",
+        bio: [
+            "Samantha is a highly qualified advocate and Co Founder of a multidisciplinary centre for children with developmental disabilities, including autism, called Reach Beyond. She is a Registered Behaviour Technician (USA) and an International Behaviour Therapist specialising in autism and ADHD. She has over 15 years of experience working with children with special needs and is the mother of a son on the autism spectrum. Her pioneering work in Sri Lanka includes launching the nation’s first trilingual disability parent support group in 2016 and organising the first ABA awareness conference in 2007. Samantha is deeply committed to promoting societal acceptance and inclusion in both life and work for all persons.",
+        ],
         image: "/Samantha Profile Photo.jpeg",
         imageClassName: "object-cover scale-[1.7] translate-y-1"
     }
@@ -62,10 +71,12 @@ export function BoardSection() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="border-t border-gray-100 pt-6">
-                                <p className="text-gray-600 text-sm leading-relaxed text-justify">
-                                    {member.bio}
-                                </p>
+                            <div className="border-t border-gray-100 pt-6 space-y-3">
+                                {member.bio.map((paragraph, i) => (
+                                    <p key={i} className="text-gray-600 text-sm leading-relaxed text-justify">
+                                        {paragraph}
+                                    </p>
+                                ))}
                             </div>
                         </div>
                     ))}

@@ -15,11 +15,6 @@ export function HeroSection() {
 
             <div className="container relative z-10 mx-auto px-4 md:px-6 pt-24 pb-20 md:pt-32 md:pb-32">
                 <div className="max-w-2xl lg:max-w-3xl mx-auto text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                    {/* Badge */}
-                    <div className="text-[#C1A033] text-sm font-semibold mb-6 uppercase tracking-widest inline-block px-4 py-1.5 rounded-full border border-[#C1A033]/40 bg-[#C1A033]/10">
-                        Sri Lanka&apos;s Regulatory Body
-                    </div>
-
                     {/* Main heading */}
                     <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold font-heading text-white mb-6 leading-[1.15] tracking-tight">
                         The Behaviour Analysis <br />

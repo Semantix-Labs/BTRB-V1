@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { MembershipForm } from "@/components/features/membership-form/MembershipForm";
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, AlertCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
     title: 'Apply for Certification',
@@ -27,6 +27,24 @@ export default function ApplyPage() {
                     </p>
                 </div>
             </section>
+
+            {/* Application Fee Notice */}
+            <div className="border-b border-amber-200 bg-amber-50">
+                <div className="container mx-auto px-4 md:px-6 py-5">
+                    <div className="flex items-start gap-3 w-full">
+                        <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                        <div>
+                            <p className="font-bold text-amber-900 mb-1">Application Fee Notice</p>
+                            <p className="text-sm text-amber-800 leading-relaxed">
+                                A non-refundable application processing fee of <strong>LKR 5,000</strong> is required for all applications. Payment must be deposited into the BARB bank account and proof of payment attached to the application. Bank details will be provided upon request.
+                            </p>
+                            <p className="text-sm text-amber-800 leading-relaxed mt-2">
+                                The LKR 5,000 fee covers both the application processing fee and the first year&apos;s annual membership fee. The annual membership fee thereafter is <strong>LKR 5,000</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="flex flex-col lg:flex-row gap-12">

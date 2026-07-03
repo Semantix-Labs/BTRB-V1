@@ -84,7 +84,7 @@ export default async function DirectoryPage({
                                     <span className="text-sm text-gray-700 font-medium">Inactive : Certified but not authorised to practise</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-2.5 h-2.5 rounded-full bg-[#EAB308] shrink-0" />
+                                    <div className="w-2.5 h-2.5 rounded-full bg-gray-500 shrink-0" />
                                     <span className="text-sm text-gray-700 font-medium">Approved Professionals</span>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ export async function PUT(
     const { id } = await params
     const { status } = await req.json() // 'pending' | 'approved' | 'rejected'
 
-    if (!['pending', 'approved', 'rejected'].includes(status)) {
+    if (!['pending', 'in_progress', 'approved', 'rejected'].includes(status)) {
         return NextResponse.json({ error: 'Invalid status' }, { status: 400 })
     }
 
@@ -32,6 +32,13 @@ export async function PUT(
 
     if (fetchErr || !app) {
         return NextResponse.json({ error: 'Application not found' }, { status: 404 })
+    }
+
+    if (['approved', 'rejected'].includes(app.review_status)) {
+        return NextResponse.json(
+            { error: 'This application is finalised and its status cannot be changed.' },
+            { status: 409 }
+        )
     }
 
     let registration_number: string | null = null

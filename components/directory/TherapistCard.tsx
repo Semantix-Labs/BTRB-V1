@@ -16,25 +16,33 @@ export interface Therapist {
 export function TherapistCard({ therapist }: { therapist: Therapist }) {
     // Determine badge text and color based on status
     let badgeText = "Unknown Status";
-    let badgeColorClass = "bg-gray-500/20 text-gray-200 border-gray-400"; // fallback
+    let badgeColorClass = "bg-gray-100 text-gray-800 border-gray-300";
+    let dotColorClass = "bg-gray-500";
 
     if (therapist.status === "authorized_active") {
         badgeText = "Active";
-        badgeColorClass = "bg-[var(--color-primary)]/20 text-[var(--color-primary)] border-[var(--color-primary)]/50";
+        badgeColorClass = "bg-blue-100 text-[var(--color-primary)] border-blue-300";
+        dotColorClass = "bg-[var(--color-primary)]";
     } else if (therapist.status === "unauthorized_inactive") {
         badgeText = "Inactive";
-        badgeColorClass = "bg-[#EAB308]/20 text-[#EAB308] border-[#EAB308]/50";
+        badgeColorClass = "bg-amber-100 text-amber-800 border-amber-300";
+        dotColorClass = "bg-amber-500";
     } else if (therapist.status === "approved_non_certified") {
         badgeText = "Approved Professional";
-        badgeColorClass = "bg-[#EAB308]/20 text-[#EAB308] border-[#EAB308]/50";
+        badgeColorClass = "bg-gray-100 text-gray-800 border-gray-300";
+        dotColorClass = "bg-gray-500";
     }
 
     return (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col h-full group">
             {/* Header / Banner */}
-            <div className={`h-24 bg-gradient-to-r ${therapist.status === 'unauthorized_inactive' ? 'from-[#EAB308]/80 to-[#EAB308]' : 'from-[var(--color-primary)] to-[#1a3a61]'} relative`}>
-                <div className={`absolute top-4 right-4 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold border ${badgeColorClass} shadow-sm flex items-center gap-1.5 bg-white`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${therapist.status === 'authorized_active' ? 'bg-[var(--color-primary)]' : 'bg-[#EAB308]'} animate-pulse`} />
+            <div className={`h-24 bg-gradient-to-r ${
+                therapist.status === 'unauthorized_inactive' ? 'from-amber-400 to-amber-500' :
+                therapist.status === 'approved_non_certified' ? 'from-gray-400 to-gray-500' :
+                'from-[var(--color-primary)] to-[#1a3a61]'
+            } relative`}>
+                <div className={`absolute top-4 right-4 px-3 py-1.5 rounded-full text-xs font-bold border ${badgeColorClass} shadow-md flex items-center gap-1.5 bg-white`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${dotColorClass} animate-pulse`} />
                     {badgeText}
                 </div>
             </div>

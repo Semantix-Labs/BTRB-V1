@@ -4,13 +4,44 @@ import { useState } from 'react';
 import { Button } from '../ui/button';
 import { supabase } from '@/lib/supabase/client';
 import type { ApplicationFormData } from '../types/form-types';
-import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Loader2, Upload, Database, Mail } from 'lucide-react';
 
 const BUCKET = 'application-documents';
 
+type Step = 'idle' | 'uploading' | 'saving' | 'emailing' | 'done' | 'error';
+
+const STEP_LABELS: Record<Step, string> = {
+    idle: 'Submit Application',
+    uploading: 'Uploading documents…',
+    saving: 'Saving application…',
+    emailing: 'Sending confirmation…',
+    done: 'Done',
+    error: 'Submit Application',
+};
+
+async function tryUploadFile(
+    file: File | undefined,
+    folder: string
+): Promise<string | null> {
+    if (!file) return null;
+    // Sanitize filename — Supabase Storage rejects keys with spaces or special chars
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath = `${folder}/${Date.now()}_${safeName}`;
+    try {
+        const { error } = await supabase.storage.from(BUCKET).upload(filePath, file);
+        if (error) {
+            console.warn(`Upload skipped (${file.name}):`, error.message);
+            return null;
+        }
+        return filePath;
+    } catch (err) {
+        console.warn(`Upload exception (${file.name}):`, err);
+        return null;
+    }
+}
+
 export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData }) {
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [step, setStep] = useState<Step>('idle');
     const [error, setError] = useState<string | null>(null);
 
     const getSpecialization = (data: ApplicationFormData) => {
@@ -23,21 +54,13 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
         return specs.join(', ') || 'Not specified';
     };
 
-    const uploadFile = async (fileKey: string, folder: string): Promise<string | null> => {
-        const file = formData.files?.[fileKey];
-        if (!file) return null;
-        const filePath = `${folder}/${Date.now()}_${file.name}`;
-        const { error } = await supabase.storage.from(BUCKET).upload(filePath, file);
-        if (error) throw new Error(`Upload failed for ${fileKey}: ${error.message}`);
-        return filePath;
-    };
-
     const handleSubmit = async () => {
-        setLoading(true);
+        setStep('uploading');
         setError(null);
 
         try {
-            // Upload all files to Supabase Storage
+            // --- Step 1: Upload files individually (non-fatal) ---
+            const files = formData.files ?? {};
             const [
                 nicFrontPath,
                 nicBackPath,
@@ -48,26 +71,23 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 cvPath,
                 insurancePath,
             ] = await Promise.all([
-                uploadFile('nicFrontFile', 'nic'),
-                uploadFile('nicBackFile', 'nic'),
-                uploadFile('expiredRBTFile', 'certifications'),
-                uploadFile('expiredIBTFile', 'certifications'),
-                uploadFile('educationFile', 'education'),
-                uploadFile('workExperienceFile', 'work'),
-                uploadFile('cvFile', 'cv'),
-                uploadFile('insuranceFile', 'insurance'),
+                tryUploadFile(files['nicFrontFile'], 'nic'),
+                tryUploadFile(files['nicBackFile'], 'nic'),
+                tryUploadFile(files['expiredRBTFile'], 'certifications'),
+                tryUploadFile(files['expiredIBTFile'], 'certifications'),
+                tryUploadFile(files['educationFile'], 'education'),
+                tryUploadFile(files['workExperienceFile'], 'work'),
+                tryUploadFile(files['cvFile'], 'cv'),
+                tryUploadFile(files['insuranceFile'], 'insurance'),
             ]);
-            // behaviourAnalystFile is uploaded separately (no dedicated DB column)
-            await uploadFile('behaviourAnalystFile', 'certifications');
+            await tryUploadFile(files['behaviourAnalystFile'], 'certifications');
 
-            // Insert into therapist_applications (column names match database_schema_update.sql)
-            const { error: insertError } = await supabase
-                .from('therapist_applications')
-                .insert([{
-                    // Status
-                    review_status: 'pending',
-
-                    // Personal Info
+            // --- Step 2: Insert into DB via service-role API ---
+            setStep('saving');
+            const res = await fetch('/api/applications/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
                     first_name: formData.firstName,
                     surname: formData.surname,
                     date_of_birth: formData.dateOfBirth,
@@ -81,23 +101,21 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                     nic_front_file_name: nicFrontPath,
                     nic_back_file_name: nicBackPath,
 
-                    // Criteria
-                    current_rbt: formData.currentRBT || false,
+                    current_rbt: formData.currentRBT ?? false,
                     rbt_certification_no: formData.rbtCertificationNo,
-                    current_ibt: formData.currentIBT || false,
+                    current_ibt: formData.currentIBT ?? false,
                     ibt_certification_no: formData.ibtCertificationNo,
-                    expired_rbt: formData.expiredRBT || false,
+                    expired_rbt: formData.expiredRBT ?? false,
                     expired_rbt_file_name: expiredRbtPath,
-                    voluntary_inactive_rbt: formData.voluntaryInactiveRBT || false,
+                    voluntary_inactive_rbt: formData.voluntaryInactiveRBT ?? false,
                     voluntary_inactive_rbt_certification_no: formData.voluntaryInactiveRBTCertificationNo,
                     voluntary_inactive_rbt_reactivation_date: formData.voluntaryInactiveRBTReactivationDate,
-                    expired_ibt: formData.expiredIBT || false,
+                    expired_ibt: formData.expiredIBT ?? false,
                     expired_ibt_file_name: expiredIbtPath,
-                    practicing_behavior_therapist: formData.practicingBehaviorTherapist || false,
-                    other_aba_qualifications: formData.otherABAQualifications || false,
-                    behaviour_analyst: formData.behaviourAnalyst || false,
+                    practicing_behavior_therapist: formData.practicingBehaviorTherapist ?? false,
+                    other_aba_qualifications: formData.otherABAQualifications ?? false,
+                    behaviour_analyst: formData.behaviourAnalyst ?? false,
 
-                    // Education & Work
                     institution: formData.institution,
                     period_of_education: formData.periodOfEducation,
                     qualifications: formData.qualifications,
@@ -112,33 +130,43 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                     cv_file_name: cvPath,
                     insurance_file_name: insurancePath,
 
-                    // Behaviour analyst doc (stored separately, same field unused in schema)
-                    // behaviourAnalystPath is uploaded to storage but schema has no dedicated column
+                    resident: formData.resident ?? false,
+                    agree_objectives: formData.agreeObjectives ?? false,
+                    agree_maintenance: formData.agreeMaintenance ?? false,
+                    agree_license: formData.agreeLicense ?? false,
+                    agree_update: formData.agreeUpdate ?? false,
+                    agree_malpractice: formData.agreeMalpractice ?? false,
+                    agree_ethics: formData.agreeEthics ?? false,
+                    agree_police_clearance: formData.agreePoliceClearance ?? false,
+                }),
+            });
 
-                    // Agreements
-                    resident: formData.resident || false,
-                    agree_objectives: formData.agreeObjectives || false,
-                    agree_maintenance: formData.agreeMaintenance || false,
-                    agree_license: formData.agreeLicense || false,
-                    agree_update: formData.agreeUpdate || false,
-                    agree_malpractice: formData.agreeMalpractice || false,
-                    agree_ethics: formData.agreeEthics || false,
-                    agree_police_clearance: formData.agreePoliceClearance || false,
-                }]);
+            if (!res.ok) {
+                const json = await res.json();
+                throw new Error(json.error ?? 'Failed to save application. Please try again.');
+            }
 
-            if (insertError) throw insertError;
+            // --- Step 3: Send acknowledgement email (non-blocking) ---
+            setStep('emailing');
+            fetch('/api/applications/acknowledge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firstName: formData.firstName,
+                    surname: formData.surname,
+                    email: formData.email,
+                }),
+            }).catch((err) => console.error('Acknowledgement email failed:', err));
 
-            setSuccess(true);
+            setStep('done');
         } catch (err: unknown) {
             console.error('Submission error:', err);
-            const message = err instanceof Error ? err.message : 'Failed to submit application. Please try again.';
-            setError(message);
-        } finally {
-            setLoading(false);
+            setError(err instanceof Error ? err.message : 'Submission failed. Please try again.');
+            setStep('error');
         }
     };
 
-    if (success) {
+    if (step === 'done') {
         return (
             <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center animate-in fade-in zoom-in duration-500">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -147,7 +175,7 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 <h3 className="text-2xl font-bold text-green-800 mb-2">Application Submitted!</h3>
                 <p className="text-green-700 max-w-md mx-auto">
                     Thank you for applying. Your application has been received and is under review.
-                    We will contact you at <strong>{formData.email}</strong>.
+                    A confirmation has been sent to <strong>{formData.email}</strong>.
                 </p>
                 <div className="mt-6">
                     <Button
@@ -161,6 +189,8 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
             </div>
         );
     }
+
+    const isLoading = step === 'uploading' || step === 'saving' || step === 'emailing';
 
     return (
         <div className="space-y-6">
@@ -198,21 +228,48 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 By clicking submit, you confirm the information provided is accurate.
             </p>
 
-            {error && (
-                <div className="flex items-center gap-2 text-red-600 bg-red-50 p-4 rounded-lg text-sm">
-                    <AlertCircle className="w-5 h-5 shrink-0" />
-                    {error}
+            {/* Progress steps shown while loading */}
+            {isLoading && (
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 space-y-2.5">
+                    {[
+                        { id: 'uploading', icon: <Upload className="w-4 h-4" />, label: 'Uploading documents' },
+                        { id: 'saving',    icon: <Database className="w-4 h-4" />, label: 'Saving application' },
+                        { id: 'emailing',  icon: <Mail className="w-4 h-4" />, label: 'Sending confirmation email' },
+                    ].map(({ id, icon, label }) => {
+                        const stepOrder = ['uploading', 'saving', 'emailing'];
+                        const current = stepOrder.indexOf(step);
+                        const thisIdx = stepOrder.indexOf(id);
+                        const isDone = thisIdx < current;
+                        const isActive = thisIdx === current;
+                        return (
+                            <div key={id} className={`flex items-center gap-2 text-sm ${isDone ? 'text-green-600' : isActive ? 'text-blue-700 font-medium' : 'text-gray-400'}`}>
+                                {isDone ? <CheckCircle2 className="w-4 h-4" /> : isActive ? <Loader2 className="w-4 h-4 animate-spin" /> : icon}
+                                {label}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
 
-            <Button onClick={handleSubmit} className="w-full h-12 text-base" disabled={loading}>
-                {loading ? (
+            {error && (
+                <div className="flex items-start gap-2 text-red-600 bg-red-50 p-4 rounded-lg text-sm">
+                    <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                    <span>{error}</span>
+                </div>
+            )}
+
+            <Button
+                onClick={handleSubmit}
+                className="w-full h-12 text-base"
+                disabled={isLoading}
+            >
+                {isLoading ? (
                     <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Uploading & Submitting...
+                        {STEP_LABELS[step]}
                     </>
                 ) : (
-                    'Submit Application'
+                    STEP_LABELS[step]
                 )}
             </Button>
         </div>

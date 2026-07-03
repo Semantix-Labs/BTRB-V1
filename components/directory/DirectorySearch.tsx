@@ -132,11 +132,11 @@ export function DirectorySearch({
                 <button
                     onClick={() => handleStatusFilter('approved')}
                     className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1.5 transition-colors border ${currentStatus === 'approved'
-                        ? 'bg-[#EAB308] text-white border-[#EAB308]'
+                        ? 'bg-gray-500 text-white border-gray-500'
                         : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
                         }`}
                 >
-                    <span className={`w-2 h-2 rounded-full ${currentStatus === 'approved' ? 'bg-white' : 'bg-[#EAB308]'}`} />
+                    <span className={`w-2 h-2 rounded-full ${currentStatus === 'approved' ? 'bg-white' : 'bg-gray-500'}`} />
                     Approved Professionals
                 </button>
             </div>

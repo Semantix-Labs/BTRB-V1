@@ -12,18 +12,20 @@ interface ApplicationRow {
     email: string;
     city: string | null;
     designation: string | null;
-    review_status: 'pending' | 'approved' | 'rejected';
+    review_status: 'pending' | 'in_progress' | 'approved' | 'rejected';
     submitted_at: string;
 }
 
 const STATUS_OPTIONS = [
     { value: 'pending', label: 'Pending' },
+    { value: 'in_progress', label: 'In Progress' },
     { value: 'approved', label: 'Approved' },
     { value: 'rejected', label: 'Not Approved' },
 ] as const;
 
 const STATUS_STYLES: Record<string, string> = {
     pending: 'bg-yellow-50 text-yellow-800 border-yellow-200',
+    in_progress: 'bg-blue-50 text-blue-800 border-blue-200',
     approved: 'bg-green-50 text-green-700 border-green-200',
     rejected: 'bg-red-50 text-red-700 border-red-200',
 };
@@ -33,6 +35,8 @@ const STATUS_ICONS: Record<string, React.ReactNode> = {
     approved: <CheckCircle2 className="w-3.5 h-3.5" />,
     rejected: <XCircle className="w-3.5 h-3.5" />,
 };
+
+const FINAL_STATUSES = new Set(['approved', 'rejected']);
 
 function StatusDropdown({
     appId,
@@ -46,6 +50,7 @@ function StatusDropdown({
     onUpdated: (id: string, newStatus: string) => void;
 }) {
     const [loading, setLoading] = useState(false);
+    const isFinal = FINAL_STATUSES.has(current);
 
     const handleChange = async (newStatus: string) => {
         if (newStatus === current) return;
@@ -63,6 +68,16 @@ function StatusDropdown({
             alert(`Failed to update status: ${error}`);
         }
     };
+
+    if (isFinal) {
+        const label = STATUS_OPTIONS.find((o) => o.value === current)?.label ?? current;
+        return (
+            <div className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium border ${STATUS_STYLES[current] ?? ''}`}>
+                {STATUS_ICONS[current]}
+                {label}
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex items-center gap-2">
@@ -128,6 +143,7 @@ export default function AdminDashboard() {
     const counts = {
         all: applications.length,
         pending: applications.filter((a) => a.review_status === 'pending').length,
+        in_progress: applications.filter((a) => a.review_status === 'in_progress').length,
         approved: applications.filter((a) => a.review_status === 'approved').length,
         rejected: applications.filter((a) => a.review_status === 'rejected').length,
     };
@@ -140,6 +156,7 @@ export default function AdminDashboard() {
                     <h1 className="text-2xl font-bold text-gray-900">Applications</h1>
                     <p className="text-sm text-gray-500 mt-0.5">
                         {counts.all} total · <span className="text-yellow-700">{counts.pending} pending</span>
+                        {counts.in_progress > 0 && <> · <span className="text-blue-700">{counts.in_progress} in progress</span></>}
                         {counts.approved > 0 && <> · <span className="text-green-700">{counts.approved} approved</span></>}
                     </p>
                 </div>
@@ -150,6 +167,7 @@ export default function AdminDashboard() {
                 {[
                     { key: 'all', label: 'All', count: counts.all },
                     { key: 'pending', label: 'Pending', count: counts.pending },
+                    { key: 'in_progress', label: 'In Progress', count: counts.in_progress },
                     { key: 'approved', label: 'Approved', count: counts.approved },
                     { key: 'rejected', label: 'Not Approved', count: counts.rejected },
                 ].map(({ key, label, count }) => (

@@ -1,8 +1,91 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import type { ComponentProps } from '../types/form-types';
+
+function DateOfBirthInput({
+    value,
+    onChange,
+}: {
+    value: string;
+    onChange: (iso: string) => void;
+}) {
+    const parts = value ? value.split('-') : [];
+    const [day, setDay] = useState(parts[2] ?? '');
+    const [month, setMonth] = useState(parts[1] ?? '');
+    const [year, setYear] = useState(parts[0] ?? '');
+
+    const monthRef = useRef<HTMLInputElement>(null);
+    const yearRef = useRef<HTMLInputElement>(null);
+
+    const emit = (d: string, m: string, y: string) => {
+        if (d.length === 2 && m.length === 2 && y.length === 4) {
+            onChange(`${y}-${m}-${d}`);
+        } else {
+            onChange('');
+        }
+    };
+
+    const handleDay = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const v = e.target.value.replace(/\D/g, '').slice(0, 2);
+        setDay(v);
+        emit(v, month, year);
+        if (v.length === 2) monthRef.current?.focus();
+    };
+
+    const handleMonth = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const v = e.target.value.replace(/\D/g, '').slice(0, 2);
+        setMonth(v);
+        emit(day, v, year);
+        if (v.length === 2) yearRef.current?.focus();
+    };
+
+    const handleYear = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const v = e.target.value.replace(/\D/g, '').slice(0, 4);
+        setYear(v);
+        emit(day, month, v);
+    };
+
+    return (
+        <div className="flex items-stretch border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white h-10">
+            <input
+                type="text"
+                inputMode="numeric"
+                placeholder="DD"
+                value={day}
+                onChange={handleDay}
+                maxLength={2}
+                aria-label="Day"
+                className="w-14 text-center text-sm outline-none bg-transparent py-2 placeholder-gray-400"
+            />
+            <span className="flex items-center text-gray-300 select-none">/</span>
+            <input
+                ref={monthRef}
+                type="text"
+                inputMode="numeric"
+                placeholder="MM"
+                value={month}
+                onChange={handleMonth}
+                maxLength={2}
+                aria-label="Month"
+                className="w-14 text-center text-sm outline-none bg-transparent py-2 placeholder-gray-400"
+            />
+            <span className="flex items-center text-gray-300 select-none">/</span>
+            <input
+                ref={yearRef}
+                type="text"
+                inputMode="numeric"
+                placeholder="YYYY"
+                value={year}
+                onChange={handleYear}
+                maxLength={4}
+                aria-label="Year"
+                className="w-20 text-center text-sm outline-none bg-transparent py-2 placeholder-gray-400"
+            />
+        </div>
+    );
+}
 
 export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,15 +132,12 @@ export function PersonalInfo({ formData, updateFormData }: ComponentProps) {
                     />
                 </div>
                 <div>
-                    <Label htmlFor="dateOfBirth">Date of Birth <span className="text-red-500">*</span></Label>
-                    <Input
-                        id="dateOfBirth"
-                        name="dateOfBirth"
-                        type="date"
-                        value={formData.dateOfBirth || ''}
-                        onChange={handleChange}
-                        required
+                    <Label>Date of Birth <span className="text-red-500">*</span></Label>
+                    <DateOfBirthInput
+                        value={formData.dateOfBirth ?? ''}
+                        onChange={(iso) => updateFormData({ dateOfBirth: iso })}
                     />
+                    <p className="text-xs text-gray-400 mt-1">Day / Month / Year</p>
                 </div>
                 <div className="sm:col-span-2">
                     <Label htmlFor="addressLine">Address Line <span className="text-red-500">*</span></Label>

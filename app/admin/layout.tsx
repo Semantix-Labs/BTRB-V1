@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
-import { Loader2, LogOut, ShieldCheck, LayoutDashboard, MessageSquare } from 'lucide-react';
+import { Loader2, LogOut, ShieldCheck, LayoutDashboard, MessageSquare, Users } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -43,36 +43,62 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         );
     }
 
-    if (pathname === '/admin/login') return <>{children}</>;
+    if (pathname === '/admin/login' || pathname === '/admin/reset-password') return <>{children}</>;
+
+    const navLinks = [
+        { href: '/admin', label: 'Applications', icon: <LayoutDashboard className="w-4 h-4" /> },
+        { href: '/admin/therapists', label: 'Therapists', icon: <Users className="w-4 h-4" /> },
+        { href: '/admin/inquiries', label: 'Inquiries', icon: <MessageSquare className="w-4 h-4" />, badge: unreadCount },
+    ];
 
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Top nav */}
-            <header className="bg-[var(--color-primary)] text-white px-6 py-3 flex items-center justify-between shadow">
-                <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-5 h-5" />
-                    <span className="font-bold text-sm">BARB Admin Panel</span>
-                </div>
-                <div className="flex items-center gap-4 text-sm">
-                    <Link href="/admin" className="flex items-center gap-1.5 opacity-80 hover:opacity-100">
-                        <LayoutDashboard className="w-4 h-4" /> Applications
-                    </Link>
-                    <Link href="/admin/inquiries" className="flex items-center gap-1.5 opacity-80 hover:opacity-100 relative">
-                        <MessageSquare className="w-4 h-4" /> Inquiries
-                        {unreadCount > 0 && (
-                            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                                {unreadCount > 9 ? '9+' : unreadCount}
-                            </span>
-                        )}
-                    </Link>
-                    <span className="opacity-50">|</span>
-                    <span className="opacity-70">{userEmail}</span>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-1.5 opacity-80 hover:opacity-100"
-                    >
-                        <LogOut className="w-4 h-4" /> Logout
-                    </button>
+            <header className="bg-[var(--color-primary)] text-white shadow">
+                <div className="max-w-7xl mx-auto px-6 h-14 grid grid-cols-3 items-center">
+                    {/* Left — branding */}
+                    <div className="flex items-center gap-2.5">
+                        <ShieldCheck className="w-5 h-5 opacity-80" />
+                        <span className="font-bold text-sm tracking-wide">BARB Admin</span>
+                    </div>
+
+                    {/* Centre — nav tabs */}
+                    <nav className="flex items-center justify-center gap-1">
+                        {navLinks.map(({ href, label, icon, badge }) => {
+                            const isActive = pathname === href;
+                            return (
+                                <Link
+                                    key={href}
+                                    href={href}
+                                    className={`relative flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                                        isActive
+                                            ? 'bg-white/15 text-white'
+                                            : 'text-white/60 hover:text-white hover:bg-white/10'
+                                    }`}
+                                >
+                                    {icon}
+                                    {label}
+                                    {badge != null && badge > 0 && (
+                                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5">
+                                            {badge > 9 ? '9+' : badge}
+                                        </span>
+                                    )}
+                                </Link>
+                            );
+                        })}
+                    </nav>
+
+                    {/* Right — user + logout */}
+                    <div className="flex items-center justify-end gap-3 text-sm">
+                        <span className="text-white/50 text-xs truncate max-w-[160px]">{userEmail}</span>
+                        <div className="w-px h-4 bg-white/20" />
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-1.5 text-white/60 hover:text-white transition-colors"
+                        >
+                            <LogOut className="w-4 h-4" /> Logout
+                        </button>
+                    </div>
                 </div>
             </header>
             <main className="max-w-7xl mx-auto px-6 py-8">{children}</main>

@@ -1,10 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAuthClient, getToken } from '@/lib/supabase/admin-client'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
-function generateRegistrationNumber() {
-    const year = new Date().getFullYear()
-    const seq = String(Math.floor(Math.random() * 900) + 100)
-    return `BARB-${year}-${seq}`
+function credentialPrefix(app: Record<string, unknown>): string {
+    if (app.behaviour_analyst) return 'RBA'
+    if (app.current_ibt || app.expired_ibt) return 'IBT'
+    return 'RBT' // covers current_rbt, expired_rbt, voluntary_inactive_rbt, practicing_behavior_therapist
+}
+
+async function generateRegistrationNumber(
+    db: SupabaseClient,
+    app: Record<string, unknown>
+): Promise<string> {
+    const prefix = credentialPrefix(app)
+
+    // Find the highest existing number for this prefix
+    const { data } = await db
+        .from('therapists')
+        .select('registration_number')
+        .like('registration_number', `${prefix}-%`)
+
+    let next = 1
+    if (data && data.length > 0) {
+        const nums = data
+            .map((t) => parseInt((t.registration_number ?? '').replace(`${prefix}-`, ''), 10))
+            .filter((n) => !isNaN(n) && n > 0)
+        if (nums.length > 0) next = Math.max(...nums) + 1
+    }
+
+    return `${prefix}-${String(next).padStart(3, '0')}`
 }
 
 export async function PUT(
@@ -59,7 +83,7 @@ export async function PUT(
                 .eq('application_id', id)
         } else {
             // Create new therapist record — this flows into the public_directory view
-            registration_number = generateRegistrationNumber()
+            registration_number = await generateRegistrationNumber(db, app)
             const { error: insertErr } = await db
                 .from('therapists')
                 .insert({

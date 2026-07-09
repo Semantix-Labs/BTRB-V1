@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase/client'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
     const { email } = await req.json()
@@ -7,6 +7,11 @@ export async function POST(req: NextRequest) {
     if (!email || typeof email !== 'string') {
         return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
+
+    const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
 
     // Generate a 6-digit code
     const code = Math.floor(100000 + Math.random() * 900000).toString()
@@ -26,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     if (dbError) {
         console.error('OTP DB error:', dbError)
-        return NextResponse.json({ error: 'Failed to generate code' }, { status: 500 })
+        return NextResponse.json({ error: 'Failed to generate code', detail: dbError.message }, { status: 500 })
     }
 
     // Send via Resend
@@ -34,6 +39,7 @@ export async function POST(req: NextRequest) {
     const fromEmail = process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'
 
     if (!resendApiKey) {
+        console.error('RESEND_API_KEY is not set')
         return NextResponse.json({ error: 'Email service not configured' }, { status: 500 })
     }
 
@@ -49,7 +55,6 @@ export async function POST(req: NextRequest) {
             subject: 'Your BARB verification code',
             html: `
                 <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px">
-                    <img src="https://btrb.lk/icon.png" alt="BARB" style="height:40px;margin-bottom:24px" />
                     <h2 style="color:#1a3a61;margin-bottom:8px">Verify your email</h2>
                     <p style="color:#4b5563;font-size:15px;margin-bottom:24px">
                         Use the code below to complete your BARB application. It expires in <strong>10 minutes</strong>.
@@ -68,7 +73,7 @@ export async function POST(req: NextRequest) {
     if (!res.ok) {
         const body = await res.json()
         console.error('Resend error:', body)
-        return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
+        return NextResponse.json({ error: 'Failed to send email', detail: body }, { status: 500 })
     }
 
     return NextResponse.json({ success: true })

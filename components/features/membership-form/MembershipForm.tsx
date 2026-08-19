@@ -9,7 +9,6 @@ import { CriteriaSelection } from './components/criteria-selection';
 import { AdditionalInfo } from './components/additional-info';
 import { TermsAndConditions } from './components/terms-and-conditions';
 import { ReviewAndSubmit } from './components/review-and-submit';
-import { OtpVerificationModal } from './components/OtpVerificationModal';
 import type { ApplicationFormData } from './types/form-types';
 
 export function MembershipForm() {
@@ -17,9 +16,6 @@ export function MembershipForm() {
     const [formData, setFormData] = useState<ApplicationFormData>({});
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('Please fill in all required fields before proceeding.');
-    const [emailVerified, setEmailVerified] = useState(false);
-    const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
-    const [otpLoading, setOtpLoading] = useState(false);
 
     const updateFormData = (data: Partial<ApplicationFormData>) => {
         setFormData((prev) => ({ ...prev, ...data }));
@@ -43,37 +39,12 @@ export function MembershipForm() {
         return true;
     };
 
-    const sendOtp = async () => {
-        setOtpLoading(true);
-        setShowError(false);
-        const res = await fetch('/api/otp/send', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: formData.email }),
-        });
-        const json = await res.json();
-        setOtpLoading(false);
-        if (!res.ok) {
-            setErrorMessage(`Could not send verification email: ${json.error}`);
-            setShowError(true);
-            return false;
-        }
-        return true;
-    };
-
-    const nextStep = async () => {
+    const nextStep = () => {
         if (!validateStep()) {
             setErrorMessage('Please fill in all required fields before proceeding.');
             setShowError(true);
             return;
         }
-
-        if (step === 1 && !emailVerified) {
-            const sent = await sendOtp();
-            if (sent) setIsOtpModalOpen(true);
-            return;
-        }
-
         setStep((prev) => prev + 1);
         setShowError(false);
     };
@@ -81,26 +52,6 @@ export function MembershipForm() {
     const prevStep = () => {
         setStep((prev) => prev - 1);
         setShowError(false);
-    };
-
-    const handleOtpVerify = async (otp: string) => {
-        const res = await fetch('/api/otp/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: formData.email, code: otp }),
-        });
-        const json = await res.json();
-        if (!res.ok) {
-            return { success: false, message: json.error as string };
-        }
-        setEmailVerified(true);
-        setIsOtpModalOpen(false);
-        setStep((prev) => prev + 1);
-        return { success: true };
-    };
-
-    const handleResendOtp = async () => {
-        await sendOtp();
     };
 
     const renderStep = () => {
@@ -136,21 +87,13 @@ export function MembershipForm() {
                             </Button>
                         )}
                         {step < 5 && (
-                            <Button onClick={nextStep} className="ml-auto" disabled={otpLoading}>
-                                {otpLoading ? 'Sending email…' : 'Next'}
+                            <Button onClick={nextStep} className="ml-auto">
+                                Next
                             </Button>
                         )}
                     </div>
                 </CardContent>
             </Card>
-
-            <OtpVerificationModal
-                isOpen={isOtpModalOpen}
-                email={formData.email ?? ''}
-                onClose={() => setIsOtpModalOpen(false)}
-                onVerify={handleOtpVerify}
-                onResend={handleResendOtp}
-            />
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase/client'
+import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
     const { email, code } = await req.json()
@@ -7,6 +7,11 @@ export async function POST(req: NextRequest) {
     if (!email || !code) {
         return NextResponse.json({ error: 'Email and code are required' }, { status: 400 })
     }
+
+    const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
 
     // Find a valid, unused, non-expired OTP for this email + code
     const { data, error } = await supabase

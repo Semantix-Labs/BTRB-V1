@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAuthClient, getToken } from '@/lib/supabase/admin-client'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
 
 export async function DELETE(
     req: NextRequest,
@@ -9,14 +8,14 @@ export async function DELETE(
     const token = getToken(req)
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    // Verify the caller is a valid authenticated user
-    const { data: { user } } = await createAuthClient(token).auth.getUser()
+    const db = createAuthClient(token)
+
+    const { data: { user } } = await db.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { id } = await params
 
-    // Use service role to bypass RLS for the delete
-    const { error } = await getSupabaseAdmin()
+    const { error } = await db
         .from('therapists')
         .delete()
         .eq('id', id)

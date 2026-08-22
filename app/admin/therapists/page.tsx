@@ -169,7 +169,8 @@ export default function TherapistsAdminPage() {
     useEffect(() => {
         const load = async () => {
             const { data: { session } } = await supabase.auth.getSession();
-            const t = session?.access_token ?? '';
+            if (!session) return;
+            const t = session.access_token;
             setToken(t);
 
             const res = await fetch('/api/admin/therapists', {

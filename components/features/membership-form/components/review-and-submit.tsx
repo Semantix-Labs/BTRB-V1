@@ -19,11 +19,22 @@ const STEP_LABELS: Record<Step, string> = {
     error: 'Submit Application',
 };
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const ALLOWED_TYPES = /^(image\/.+|application\/pdf)$/;
+
 async function tryUploadFile(
     file: File | undefined,
     folder: string
 ): Promise<string | null> {
     if (!file) return null;
+    if (file.size > MAX_FILE_SIZE) {
+        console.warn(`Upload skipped — file too large (${(file.size / 1024 / 1024).toFixed(1)} MB): ${file.name}`);
+        return null;
+    }
+    if (!ALLOWED_TYPES.test(file.type)) {
+        console.warn(`Upload skipped — invalid type (${file.type}): ${file.name}`);
+        return null;
+    }
     // Sanitize filename — Supabase Storage rejects keys with spaces or special chars
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
     const filePath = `${folder}/${Date.now()}_${safeName}`;
@@ -55,8 +66,19 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
     };
 
     const handleSubmit = async () => {
-        setStep('uploading');
         setError(null);
+        // Validate file sizes before touching the network
+        const files = formData.files ?? {};
+        const oversized = Object.entries(files)
+            .filter(([, f]) => f instanceof File && (f as File).size > MAX_FILE_SIZE)
+            .map(([k]) => k.replace(/File$/, ''));
+        if (oversized.length > 0) {
+            setError(`File(s) exceed the 10 MB limit: ${oversized.join(', ')}. Please reduce the file size and try again.`);
+            setStep('error');
+            return;
+        }
+
+        setStep('uploading');
 
         try {
             // --- Step 1: Upload files individually (non-fatal) ---

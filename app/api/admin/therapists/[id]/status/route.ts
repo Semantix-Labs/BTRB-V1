@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAuthClient, getToken } from '@/lib/supabase/admin-client'
-import { getSupabaseAdmin } from '@/lib/supabase/server'
 
 const VALID_STATUSES = ['authorized_active', 'unauthorized_inactive', 'approved_non_certified']
 
@@ -11,8 +10,9 @@ export async function PATCH(
     const token = getToken(req)
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    // Verify the caller is a valid authenticated user
-    const { data: { user } } = await createAuthClient(token).auth.getUser()
+    const db = createAuthClient(token)
+
+    const { data: { user } } = await db.auth.getUser()
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { id } = await params
@@ -21,8 +21,6 @@ export async function PATCH(
     if (!VALID_STATUSES.includes(status)) {
         return NextResponse.json({ error: 'Invalid status' }, { status: 400 })
     }
-
-    const db = getSupabaseAdmin()
 
     const { data: therapist, error: fetchErr } = await db
         .from('therapists')

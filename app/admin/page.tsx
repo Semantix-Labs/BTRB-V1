@@ -110,7 +110,8 @@ export default function AdminDashboard() {
     useEffect(() => {
         const load = async () => {
             const { data: { session } } = await supabase.auth.getSession();
-            const t = session?.access_token ?? '';
+            if (!session) return; // layout will redirect to /admin/login
+            const t = session.access_token;
             setToken(t);
 
             const res = await fetch('/api/admin/applications', {

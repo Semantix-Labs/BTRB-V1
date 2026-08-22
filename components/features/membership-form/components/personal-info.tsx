@@ -15,14 +15,32 @@ function DateOfBirthInput({
     const [day, setDay] = useState(parts[2] ?? '');
     const [month, setMonth] = useState(parts[1] ?? '');
     const [year, setYear] = useState(parts[0] ?? '');
+    const [dateError, setDateError] = useState<string | null>(null);
 
     const monthRef = useRef<HTMLInputElement>(null);
     const yearRef = useRef<HTMLInputElement>(null);
 
     const emit = (d: string, m: string, y: string) => {
         if (d.length === 2 && m.length === 2 && y.length === 4) {
-            onChange(`${y}-${m}-${d}`);
+            const dayN = parseInt(d, 10);
+            const monthN = parseInt(m, 10);
+            const yearN = parseInt(y, 10);
+            const parsed = new Date(yearN, monthN - 1, dayN);
+            const isValid =
+                monthN >= 1 && monthN <= 12 &&
+                dayN >= 1 &&
+                parsed.getFullYear() === yearN &&
+                parsed.getMonth() === monthN - 1 &&
+                parsed.getDate() === dayN;
+            if (isValid) {
+                setDateError(null);
+                onChange(`${y}-${m}-${d}`);
+            } else {
+                setDateError('Invalid date');
+                onChange('');
+            }
         } else {
+            setDateError(null);
             onChange('');
         }
     };
@@ -48,6 +66,7 @@ function DateOfBirthInput({
     };
 
     return (
+        <>
         <div className="flex items-stretch border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white h-10">
             <input
                 type="text"
@@ -84,6 +103,8 @@ function DateOfBirthInput({
                 className="w-20 text-center text-sm outline-none bg-transparent py-2 placeholder-gray-400"
             />
         </div>
+        {dateError && <p className="text-xs text-red-500 mt-1">{dateError}</p>}
+        </>
     );
 }
 

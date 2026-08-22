@@ -38,7 +38,7 @@ export async function GET(
             if (!path) return
             const { data: urlData } = await db.storage
                 .from('application-documents')
-                .createSignedUrl(path, 3600)
+                .createSignedUrl(path, 86400)
             if (urlData?.signedUrl) signedUrls[field] = urlData.signedUrl
         })
     )

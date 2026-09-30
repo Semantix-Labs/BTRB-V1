@@ -54,6 +54,7 @@ async function tryUploadFile(
 export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData }) {
     const [step, setStep] = useState<Step>('idle');
     const [error, setError] = useState<string | null>(null);
+    const [emailFailed, setEmailFailed] = useState(false);
 
     const getSpecialization = (data: ApplicationFormData) => {
         const specs = [];
@@ -168,17 +169,27 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 throw new Error(json.error ?? 'Failed to save application. Please try again.');
             }
 
-            // --- Step 3: Send acknowledgement email (non-blocking) ---
+            // --- Step 3: Send acknowledgement email ---
             setStep('emailing');
-            fetch('/api/applications/acknowledge', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    firstName: formData.firstName,
-                    surname: formData.surname,
-                    email: formData.email,
-                }),
-            }).catch((err) => console.error('Acknowledgement email failed:', err));
+            try {
+                const ackRes = await fetch('/api/applications/acknowledge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        firstName: formData.firstName,
+                        surname: formData.surname,
+                        email: formData.email,
+                    }),
+                });
+                if (!ackRes.ok) {
+                    const json = await ackRes.json().catch(() => ({}));
+                    console.error('Acknowledgement email failed:', json.error ?? ackRes.statusText);
+                    setEmailFailed(true);
+                }
+            } catch (err) {
+                console.error('Acknowledgement email failed:', err);
+                setEmailFailed(true);
+            }
 
             setStep('done');
         } catch (err: unknown) {
@@ -197,7 +208,9 @@ export function ReviewAndSubmit({ formData }: { formData: ApplicationFormData })
                 <h3 className="text-2xl font-bold text-green-800 mb-2">Application Submitted!</h3>
                 <p className="text-green-700 max-w-md mx-auto">
                     Thank you for applying. Your application has been received and is under review.
-                    A confirmation has been sent to <strong>{formData.email}</strong>.
+                    {emailFailed
+                        ? ' We could not send a confirmation email — please make sure your application details are correct; our team will still process your application.'
+                        : <> A confirmation has been sent to <strong>{formData.email}</strong>.</>}
                 </p>
                 <div className="mt-6">
                     <Button

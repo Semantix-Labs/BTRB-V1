@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
 
-    const { data, error } = await db.from('therapist_applications').insert([{
+    const { error } = await db.from('therapist_applications').insert([{
         review_status: 'pending',
 
         first_name: body.first_name,
@@ -68,14 +68,14 @@ export async function POST(req: NextRequest) {
         agree_malpractice: body.agree_malpractice ?? false,
         agree_ethics: body.agree_ethics ?? false,
         agree_police_clearance: body.agree_police_clearance ?? false,
-    }]).select('id').single()
+    }])
 
     if (error) {
         console.error('Application insert error:', error)
         return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    await notifyAdmin(body, data?.id)
+    await notifyAdmin(body)
 
     return NextResponse.json({ success: true })
 }
@@ -90,7 +90,7 @@ function getSpecialization(body: Record<string, unknown>) {
     return specs.join(', ') || 'Not specified'
 }
 
-async function notifyAdmin(body: Record<string, any>, applicationId?: string) {
+async function notifyAdmin(body: Record<string, any>) {
     const resendApiKey = process.env.RESEND_API_KEY
     const fromEmail = process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL ?? 'semantixlabs@gmail.com'
@@ -101,9 +101,7 @@ async function notifyAdmin(body: Record<string, any>, applicationId?: string) {
     }
 
     const fullName = `${body.first_name} ${body.surname}`
-    const reviewUrl = applicationId
-        ? `https://barb.lk/admin/applications/${applicationId}`
-        : 'https://barb.lk/admin/applications'
+    const reviewUrl = 'https://barb.lk/admin/applications'
 
     try {
         const res = await fetch('https://api.resend.com/emails', {

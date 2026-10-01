@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
 
-    const { error } = await db.from('therapist_applications').insert([{
+    const { data, error } = await db.from('therapist_applications').insert([{
         review_status: 'pending',
 
         first_name: body.first_name,
@@ -68,12 +68,111 @@ export async function POST(req: NextRequest) {
         agree_malpractice: body.agree_malpractice ?? false,
         agree_ethics: body.agree_ethics ?? false,
         agree_police_clearance: body.agree_police_clearance ?? false,
-    }])
+    }]).select('id').single()
 
     if (error) {
         console.error('Application insert error:', error)
         return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
+    await notifyAdmin(body, data?.id)
+
     return NextResponse.json({ success: true })
+}
+
+function getSpecialization(body: Record<string, unknown>) {
+    const specs: string[] = []
+    if (body.current_rbt) specs.push('RBT')
+    if (body.current_ibt) specs.push('IBT')
+    if (body.practicing_behavior_therapist) specs.push('Behavior Therapist')
+    if (body.behaviour_analyst) specs.push('Behavior Analyst')
+    if (body.other_aba_qualifications) specs.push('Other ABA')
+    return specs.join(', ') || 'Not specified'
+}
+
+async function notifyAdmin(body: Record<string, any>, applicationId?: string) {
+    const resendApiKey = process.env.RESEND_API_KEY
+    const fromEmail = process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev'
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL ?? 'semantixlabs@gmail.com'
+
+    if (!resendApiKey) {
+        console.error('Admin notification skipped — RESEND_API_KEY not set')
+        return
+    }
+
+    const fullName = `${body.first_name} ${body.surname}`
+    const reviewUrl = applicationId
+        ? `https://barb.lk/admin/applications/${applicationId}`
+        : 'https://barb.lk/admin/applications'
+
+    try {
+        const res = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${resendApiKey}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: `BARB Website <${fromEmail}>`,
+                to: adminEmail,
+                subject: `New Application: ${fullName}`,
+                html: `
+                    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px 24px;background:#ffffff">
+                        <div style="border-left:4px solid #1a3a61;padding-left:16px;margin-bottom:28px">
+                            <h2 style="color:#1a3a61;margin:0 0 4px">New Therapist Application</h2>
+                            <p style="color:#6b7280;margin:0;font-size:14px">Submitted via barb.lk application form</p>
+                        </div>
+
+                        <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
+                            <tr style="background:#f9fafb">
+                                <td style="padding:10px 14px;font-weight:600;color:#374151;width:140px">Name</td>
+                                <td style="padding:10px 14px;color:#111827">${fullName}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px 14px;font-weight:600;color:#374151">Email</td>
+                                <td style="padding:10px 14px;color:#111827"><a href="mailto:${body.email}" style="color:#1a3a61">${body.email}</a></td>
+                            </tr>
+                            <tr style="background:#f9fafb">
+                                <td style="padding:10px 14px;font-weight:600;color:#374151">Phone</td>
+                                <td style="padding:10px 14px;color:#111827">${body.phone ?? '—'}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px 14px;font-weight:600;color:#374151">Address</td>
+                                <td style="padding:10px 14px;color:#111827">${[body.address_line, body.city, body.post_code].filter(Boolean).join(', ') || '—'}</td>
+                            </tr>
+                            <tr style="background:#f9fafb">
+                                <td style="padding:10px 14px;font-weight:600;color:#374151">NIC / Passport</td>
+                                <td style="padding:10px 14px;color:#111827">${body.nic_or_passport ?? '—'}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px 14px;font-weight:600;color:#374151">Specialization</td>
+                                <td style="padding:10px 14px">
+                                    <span style="background:#dbeafe;color:#1e40af;padding:2px 10px;border-radius:99px;font-size:13px;font-weight:600">${getSpecialization(body)}</span>
+                                </td>
+                            </tr>
+                            <tr style="background:#f9fafb">
+                                <td style="padding:10px 14px;font-weight:600;color:#374151">Institution</td>
+                                <td style="padding:10px 14px;color:#111827">${body.institution ?? '—'}</td>
+                            </tr>
+                        </table>
+
+                        <a href="${reviewUrl}" style="display:inline-block;background:#1a3a61;color:#ffffff;padding:10px 20px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600">
+                            Review Application →
+                        </a>
+
+                        <p style="color:#9ca3af;font-size:12px;margin-top:28px">
+                            This is an automated notification from BARB.
+                        </p>
+                    </div>
+                `,
+            }),
+        })
+
+        if (!res.ok) {
+            const detail = await res.text()
+            console.error('Admin notification failed:', detail)
+        }
+    } catch (err) {
+        console.error('Admin notification failed:', err)
+    }
 }
